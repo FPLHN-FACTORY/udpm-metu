@@ -33,6 +33,9 @@ FE/node_modules/
 FE/dist/
 FE/!**/src/main/**/dist/
 FE/!**/src/test/**/dist/
+FE/build/
+FE/!**/src/main/**/build/
+FE/!**/src/test/**/build/
 
 ### Environments ###
 FE/.env
