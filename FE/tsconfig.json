@@ -1,0 +1,13 @@
+{
+  "compilerOptions": {
+    "paths": {
+      "@/*": ["./src/*"],              // Đặt alias @ trỏ tới src
+      "@views": ["./src/views/*"]
+    }
+  },
+  "files": [],  // Có thể bỏ trống nếu không cần chỉ định các file cụ thể
+  "references": [
+    { "path": "./tsconfig.app.json" },
+    { "path": "./tsconfig.node.json" }
+  ]
+}
