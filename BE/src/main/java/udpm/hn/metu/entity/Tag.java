@@ -2,6 +2,8 @@ package udpm.hn.metu.entity;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
@@ -13,6 +15,7 @@ import org.hibernate.annotations.Nationalized;
 import udpm.hn.metu.entity.base.AuditEntity;
 import udpm.hn.metu.entity.base.PrimaryEntity;
 import udpm.hn.metu.infrastructure.constant.EntityProperties;
+import udpm.hn.metu.infrastructure.constant.enums.Status;
 
 import java.io.Serializable;
 
@@ -44,6 +47,7 @@ public class Tag extends AuditEntity implements Serializable {
     private String description;
 
     @Column(name = "status")
-    private Short status;
+    @Enumerated(EnumType.ORDINAL)
+    private Status status;
 
 }

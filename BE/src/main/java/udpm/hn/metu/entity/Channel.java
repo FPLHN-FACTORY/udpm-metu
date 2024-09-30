@@ -10,7 +10,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import udpm.hn.metu.entity.base.AuditEntity;
-import udpm.hn.metu.entity.base.PrimaryEntity;
 import udpm.hn.metu.infrastructure.constant.EntityProperties;
 
 import java.io.Serializable;
@@ -43,7 +42,6 @@ public class Channel extends AuditEntity implements Serializable {
     private String channelizationValue;
 
     @Column(name = "offline_redirecter", length = EntityProperties.LENGTH_CONTENT)
-    private String offline_redirecter;
-
+    private String offlineRedirecter;
 
 }

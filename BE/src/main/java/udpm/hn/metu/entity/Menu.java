@@ -2,16 +2,17 @@ package udpm.hn.metu.entity;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.annotations.DynamicUpdate;
-import org.hibernate.annotations.Nationalized;
 import udpm.hn.metu.entity.base.AuditEntity;
-import udpm.hn.metu.entity.base.PrimaryEntity;
 import udpm.hn.metu.infrastructure.constant.EntityProperties;
+import udpm.hn.metu.infrastructure.constant.enums.Status;
 
 import java.io.Serializable;
 
@@ -31,7 +32,8 @@ public class Menu extends AuditEntity implements Serializable {
     private String name;
 
     @Column(name = "status")
-    private Short status;
+    @Enumerated(EnumType.ORDINAL)
+    private Status status;
 
     @Column(name = "description", length = EntityProperties.LENGTH_DESCRIPTION)
     private String description;
@@ -44,16 +46,16 @@ public class Menu extends AuditEntity implements Serializable {
     private Short displayOption;
 
     @Column(name = "icon_color", length = EntityProperties.LENGTH_CODE)
-    private String  iconColor;
+    private String iconColor;
 
     @Column(name = "text_color", length = EntityProperties.LENGTH_CODE)
-    private String  textColor;
+    private String textColor;
 
     @Column(name = "background_color", length = EntityProperties.LENGTH_CODE)
-    private String  backgroundColor;
+    private String backgroundColor;
 
     @Column(name = "opacity", length = EntityProperties.LENGTH_CODE)
-    private Float  opacity;
+    private Float opacity;
 
     @Column(name = "appear_from")
     private Short appearFrom;

@@ -32,7 +32,7 @@ import { ref } from 'vue';
 import { useRouter } from 'vue-router';
 
 const selectedKeys = ref<string[]>(['1']);
-const router = useRouter();
+const route = useRouter();
 
 const menuItems = ref([
   { key: '1', label: 'Giới thiệu', path: '/' },

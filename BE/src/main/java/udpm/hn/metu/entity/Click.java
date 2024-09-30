@@ -10,7 +10,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import udpm.hn.metu.entity.base.PrimaryEntity;
-import udpm.hn.metu.infrastructure.constant.EntityProperties;
 
 import java.io.Serializable;
 

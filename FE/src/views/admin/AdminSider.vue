@@ -37,7 +37,7 @@ import {
 
 const collapsed = ref<boolean>(false);
 const selectedKeys = ref<string[]>(['1']);
-const router = useRouter();
+const route = useRouter();
 
 const menuItems = ref([
     { key: '1', icon: UserOutlined, label: 'Thể loại doanh nghiệp', path: '/admin/business-type' },

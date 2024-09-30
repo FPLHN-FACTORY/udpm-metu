@@ -9,7 +9,6 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.annotations.Nationalized;
 import udpm.hn.metu.entity.base.AuditEntity;
-import udpm.hn.metu.entity.base.PrimaryEntity;
 import udpm.hn.metu.infrastructure.constant.EntityProperties;
 
 import java.io.Serializable;
@@ -32,7 +31,6 @@ public class BusinessType extends AuditEntity implements Serializable {
     @Column(name = "description", length = EntityProperties.LENGTH_DESCRIPTION)
     @Nationalized
     private String description;
-
 
 
 }

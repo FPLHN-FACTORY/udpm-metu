@@ -12,10 +12,10 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.annotations.Nationalized;
-import udpm.hn.metu.entity.base.PrimaryEntity;
 import udpm.hn.metu.entity.base.SubAuditEntity;
 import udpm.hn.metu.infrastructure.constant.EntityProperties;
 import udpm.hn.metu.infrastructure.constant.enums.Role;
+import udpm.hn.metu.infrastructure.constant.enums.Status;
 
 import java.io.Serializable;
 
@@ -26,10 +26,6 @@ import java.io.Serializable;
 @AllArgsConstructor
 @NoArgsConstructor
 public class User extends SubAuditEntity implements Serializable {
-
-    @ManyToOne
-    @JoinColumn(name = "manager_id")
-    private User user;
 
     @ManyToOne
     @JoinColumn(name = "business_id")
@@ -49,6 +45,10 @@ public class User extends SubAuditEntity implements Serializable {
     @Nationalized
     private String fullName;
 
+    @Column(name = "code", length = EntityProperties.LENGTH_CODE)
+    @Nationalized
+    private String code;
+
     @Column(name = "address", length = EntityProperties.LENGTH_CONTENT)
     @Nationalized
     private String address;
@@ -60,7 +60,8 @@ public class User extends SubAuditEntity implements Serializable {
     private Short rating;
 
     @Column(name = "status")
-    private Short status;
+    @Enumerated(EnumType.ORDINAL)
+    private Status status;
 
     @Column(name = "is_online")
     private Boolean isOnline;

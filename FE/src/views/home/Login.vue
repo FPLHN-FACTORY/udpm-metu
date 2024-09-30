@@ -1,67 +1,60 @@
 <template>
-  <div>
-    <h1>Login Page</h1>
-
-    <form @submit.prevent="login">
-      <input type="text" placeholder="username" v-model="username"> <br>
-      <input type="password" placeholder="password" v-model="password"> <br>
-
-      <button type="submit">Login</button>
-    </form>
+  <div
+      class="bg-gray-200 bg-cover h-screen"
+      :style="{ backgroundImage: `url(${backgroundImage})` }"
+  >
+    <div
+        class="flex justify-center items-center"
+        :style="{ height: 'calc(100vh - 64px)' }"
+    >
+      <div class="card border-0">
+        <div>
+          <div class="my-4 flex justify-center items-center">
+            <img :src="logo" alt="Logo" class="mb-2 w-48" />
+            <img :src="logoUDPM" alt="Logo" class="mb-2 w-48" />
+          </div>
+          <div class="flex justify-center items-center flex-col">
+            <button
+                @click="handleLogin"
+                :style="buttonStyleLogin"
+                type="button"
+                class="mt-5 flex justify-center items-center p-3"
+                :disabled="isLoginProcessing"
+            >
+              <v-icon name="fc-google" class="mr-2" />
+              <span>Đăng nhập với Google</span>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 
-<script lang="ts">
-import { ref } from 'vue';
-import { useRouter } from 'vue-router';
+<script setup>
+import {URL_FRONTEND, URL_OAUTH2_GOOGLE} from "@/constants/url";
+import {computed, ref} from "vue";
+import backgroundImage from "@/assets/poly/background/bg-simple.jpg";
+import logoUDPM from "@/assets/poly/udpm/logo-udpm-3.png";
+import logo from "@/assets/poly/logos/logo-fpoly-1.png";
 
-export default {
-  name: 'Login',
-  setup() {
-    const router = useRouter();
-    const username = ref('');
-    const password = ref('');
+const isLoginProcessing = ref(false);
 
-    const users = ref([
-      {
-        username: "admin",
-        password: "123",
-        role: 1,
-      },
-      {
-        username: "manager",
-        password: "123",
-        role: 2,
-      },
-      {
-        username: "staff",
-        password: "123",
-        role: 3,
-      },
-    ]);
-
-    const login = () => {
-
-      const user = users.value.find(
-        (u) => u.username === username.value && u.password === password.value
-      );
-
-      if (user) {
-        localStorage.setItem('auth', 'true');
-        switch (user.role) {
-          case 1:
-            router.push({ name: 'AdminPage' });
-            break;
-          default:
-            router.push({ name: 'Dashboard' });
-        }
-      } else {
-        alert('tài khoản không hợp lệ');
-      }
-      
-    };
-
-    return { username, password, login };
-  },
+const handleLogin = () => {
+  console.log(
+      "URL_OAUTH2_GOOGLE + URL_FRONTEND",
+      URL_OAUTH2_GOOGLE + URL_FRONTEND
+  );
+  window.location.href = URL_OAUTH2_GOOGLE + URL_FRONTEND;
 };
+
+const buttonStyleLogin = computed(() => ({
+  backgroundColor: "#253741",
+  color: "#fff",
+  borderRadius: "5px",
+  fontSize: "16px",
+  boxShadow: "0 0 4px #253741",
+}));
 </script>
+
+<style scoped></style>

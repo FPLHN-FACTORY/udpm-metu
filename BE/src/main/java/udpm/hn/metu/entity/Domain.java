@@ -2,6 +2,8 @@ package udpm.hn.metu.entity;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
@@ -9,9 +11,9 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import udpm.hn.metu.entity.base.PrimaryEntity;
 import udpm.hn.metu.entity.base.SubAuditEntity;
 import udpm.hn.metu.infrastructure.constant.EntityProperties;
+import udpm.hn.metu.infrastructure.constant.enums.Status;
 
 import java.io.Serializable;
 
@@ -34,7 +36,8 @@ public class Domain extends SubAuditEntity implements Serializable {
     private String name;
 
     @Column(name = "status")
-    private Short status;
+    @Enumerated(EnumType.ORDINAL)
+    private Status status;
 
 
 }

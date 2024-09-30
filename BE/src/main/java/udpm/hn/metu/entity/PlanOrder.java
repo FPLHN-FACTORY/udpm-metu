@@ -2,6 +2,8 @@ package udpm.hn.metu.entity;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
@@ -11,6 +13,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import udpm.hn.metu.entity.base.PrimaryEntity;
 import udpm.hn.metu.infrastructure.constant.EntityProperties;
+import udpm.hn.metu.infrastructure.constant.enums.Status;
 
 import java.io.Serializable;
 
@@ -50,7 +53,8 @@ public class PlanOrder extends PrimaryEntity implements Serializable {
     private Short numberStaff;
 
     @Column(name = "status")
-    private Short status;
+    @Enumerated(EnumType.ORDINAL)
+    private Status status;
 
     @Column(name = "exp_date")
     private Long expirationDate;
