@@ -32,6 +32,9 @@ public class Field extends SubAuditEntity implements Serializable {
     @Column(name = "type", length = EntityProperties.LENGTH_CODE)
     private String type;
 
+    @Column(name = "value")
+    private String value;
+
     @Column(name = "require")
     private Boolean require;
 

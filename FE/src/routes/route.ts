@@ -94,6 +94,15 @@ const routes: Array<RouteRecordRaw> = [
                     requiresAuth: true
                 },
             },
+            {
+                path: ROUTES_CONSTANTS.MANAGER.children.WIDGET.path,
+                name: ROUTES_CONSTANTS.MANAGER.children.WIDGET.name,
+                component: import('@/views/manager/menu/CreateWidgetMenu.vue'),
+                meta: {
+                    requiresRole: ROLES.MANAGER,
+                    requiresAuth: true
+                },
+            },
         ],
     },
     {

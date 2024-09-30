@@ -39,9 +39,9 @@ export const ROUTES_CONSTANTS = {
                 path: "another",
                 name: "another",
             },
-            SOMETHING: {
-                path: "something",
-                name: "something",
+            WIDGET: {
+                path: "widget",
+                name: "widget",
             },
             MENU: {
                 path: "menu",

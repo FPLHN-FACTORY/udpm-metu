@@ -1,12 +1,6 @@
 package udpm.hn.metu.entity;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -36,6 +30,7 @@ public class Widget extends AuditEntity implements Serializable {
     @Column(name = "name", length = EntityProperties.LENGTH_NAME)
     private String name;
 
+    @Lob
     @Column(name = "icon_url", length = EntityProperties.LENGTH_URL)
     private String iconUrl;
 
