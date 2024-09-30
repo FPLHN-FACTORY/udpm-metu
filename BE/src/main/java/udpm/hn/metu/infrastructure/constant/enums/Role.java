@@ -5,11 +5,11 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 public enum Role {
-    ADMIN,
+    ADMIN, // setup hệ thống - value 0
 
-    MANAGER,
+    MANAGER, // chủ business - value 1
 
-    EMPLOYEE;
+    EMPLOYEE; // nhân viên - value 2
 
     public static List<String> getAllRoles() {
         return Arrays.stream(Role.values())

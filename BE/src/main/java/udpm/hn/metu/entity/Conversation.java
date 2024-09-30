@@ -13,8 +13,9 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import udpm.hn.metu.entity.base.PrimaryEntity;
-import udpm.hn.metu.infrastructure.constant.enums.ConversationType;
 import udpm.hn.metu.infrastructure.constant.EntityProperties;
+import udpm.hn.metu.infrastructure.constant.enums.ConversationType;
+import udpm.hn.metu.infrastructure.constant.enums.Status;
 
 import java.io.Serializable;
 
@@ -53,7 +54,8 @@ public class Conversation extends PrimaryEntity implements Serializable {
     private String channelInternal;
 
     @Column(name = "status")
-    private Short status;
+    @Enumerated(EnumType.ORDINAL)
+    private Status status;
 
     @Column(name = "create_at")
     private Long createAt;
