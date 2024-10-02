@@ -10,7 +10,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import udpm.hn.metu.entity.User;
 import udpm.hn.metu.infrastructure.constant.enums.Role;
-import udpm.hn.metu.infrastructure.security.repository.UserAuthRepository;
+import udpm.hn.metu.infrastructure.security.repository.SecurityUserRepository;
 import udpm.hn.metu.infrastructure.security.user.UserPrincipal;
 
 import java.util.Optional;
@@ -22,7 +22,7 @@ public class CustomUserDetailsService implements UserDetailsService {
 
     private static final Logger log = LoggerFactory.getLogger(CustomUserDetailsService.class);
 
-    private final UserAuthRepository userAuthRepository;
+    private final SecurityUserRepository userAuthRepository;
 
     @Override
     @Transactional

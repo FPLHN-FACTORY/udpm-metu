@@ -5,7 +5,7 @@ import udpm.hn.metu.repository.UserRepository;
 
 import java.util.Optional;
 
-public interface UserAuthRepository extends UserRepository {
+public interface SecurityUserRepository extends UserRepository {
 
     Optional<User>findByEmail(String email);
 

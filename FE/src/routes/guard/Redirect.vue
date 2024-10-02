@@ -47,13 +47,13 @@ onMounted(() => {
         router.push({name: ROUTES_CONSTANTS.EMPLOYEE.name});
         break;
       default:
-        router.push({name: "login"});
+        router.push({name: ROUTES_CONSTANTS.AUTHENTICATION.name});
         break;
     }
 
     return;
   }
-  router.push({name: "login"});
+  router.push({name: ROUTES_CONSTANTS.AUTHENTICATION.name});
 });
 </script>
 

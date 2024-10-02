@@ -37,4 +37,4 @@ export const ERROR_MESSAGE = {
     FETCHED_BY_DATE_RANGE: 'Fetch by date range failed',
     FETCHED_BY_DATE_TIME: 'Fetch by date time failed',
     SOMETHING_WENT_WRONG: 'Đã có lỗi xảy ra, vui lòng thử lại sau',
-};
+    };

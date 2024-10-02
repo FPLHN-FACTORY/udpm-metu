@@ -128,14 +128,24 @@ public class SecurityConfig {
                                 Role.EMPLOYEE.name()
                         )
         );
-//        http.authorizeHttpRequests( // ....
-//                auth -> auth.requestMatchers(
-//                                Helper.apppendWildcard(MappingConstant.API),
-//                                Helper.appendWildcard(MappingConstant.API),
-//                                Helper.appendWildcard(MappingConstant.API)
-//                        )
-//                        .hasAnyAuthority(Role.ADMIN.name())
-//        );
+        http.authorizeHttpRequests( // config author api admin
+                auth -> auth.requestMatchers(
+                                Helper.appendWildcard(MappingConstant.API_ADMIN_FEATURE)
+                        )
+                        .hasAnyAuthority(Role.ADMIN.name())
+        );
+        http.authorizeHttpRequests( // config author api manager
+                auth -> auth.requestMatchers(
+                                Helper.appendWildcard(MappingConstant.API_MANAGER_FEATURE)
+                                )
+                        .hasAnyAuthority(Role.MANAGER.name())
+        );
+        http.authorizeHttpRequests( // config author api employee
+                auth -> auth.requestMatchers(
+                                Helper.appendWildcard(MappingConstant.API_EMPLOYEE_FEATURE)
+                        )
+                        .hasAnyAuthority(Role.EMPLOYEE.name())
+        );
         http.authorizeHttpRequests(auth -> auth.anyRequest().authenticated());
         http.sessionManagement(sess -> sess.sessionCreationPolicy(SessionCreationPolicy.ALWAYS));
         http.oauth2Login(oauth2 -> oauth2.authorizationEndpoint(

@@ -6,8 +6,8 @@ import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 import udpm.hn.metu.entity.RefreshToken;
 import udpm.hn.metu.entity.User;
-import udpm.hn.metu.infrastructure.security.repository.RefreshTokenAuthRepository;
-import udpm.hn.metu.infrastructure.security.repository.UserAuthRepository;
+import udpm.hn.metu.infrastructure.security.repository.SecurityRefreshTokenRepository;
+import udpm.hn.metu.infrastructure.security.repository.SecurityUserRepository;
 import udpm.hn.metu.infrastructure.security.user.UserPrincipal;
 import udpm.hn.metu.utils.DateTimeUtil;
 
@@ -21,14 +21,14 @@ public class RefreshTokenService {
     // 6 hours
     private final long REFRESH_EXPIRED_TIME = 6 * 60 * 60 * 1000;
 
-    private final RefreshTokenAuthRepository refreshTokenRepository;
+    private final SecurityRefreshTokenRepository refreshTokenRepository;
 
-    private final UserAuthRepository userAuthRepository;
+    private final SecurityUserRepository userAuthRepository;
 
     @Autowired
     public RefreshTokenService(
-            RefreshTokenAuthRepository refreshTokenRepository,
-            UserAuthRepository userAuthRepository
+            SecurityRefreshTokenRepository refreshTokenRepository,
+            SecurityUserRepository userAuthRepository
     ) {
         this.refreshTokenRepository = refreshTokenRepository;
         this.userAuthRepository = userAuthRepository;

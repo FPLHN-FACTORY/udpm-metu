@@ -8,7 +8,7 @@ import udpm.hn.metu.repository.RefreshTokenRepository;
 
 import java.util.Optional;
 
-public interface RefreshTokenAuthRepository extends RefreshTokenRepository {
+public interface SecurityRefreshTokenRepository extends RefreshTokenRepository {
 
     Optional<RefreshToken> findByRefreshToken(String refreshToken);
 

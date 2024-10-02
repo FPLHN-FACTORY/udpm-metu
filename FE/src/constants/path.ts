@@ -1,23 +1,33 @@
 export const ROUTES_CONSTANTS = {
-    LOGIN: {
-        path: "auth/login",
-        name: "login",
-    },
-    REGISTER: {
-        path: "auth/register",
-        name: "register",
+    AUTHENTICATION: {
+        path: "/auth",
+        name: "authentication",
+        children: {
+            LOGIN: {
+                path: "login",
+                name: "login",
+            },
+            REGISTER: {
+                path: "register",
+                name: "register",
+            },
+            FORGOT_PASSWORD: {
+                path: "forgot-password",
+                name: "forgot-password",
+            },
+        },
     },
     ADMIN: {
         path: "/admin",
         name: "admin",
         children: {
-            ANOTHER: {
-                path: "another",
-                name: "another",
+            BUSINESS: {
+                path: "business",
+                name: "business",
             },
-            SOMETHING: {
-                path: "something",
-                name: "something",
+            BUSINESS_TYPE: {
+                path: "business-type",
+                name: "business-type",
             },
         },
     },

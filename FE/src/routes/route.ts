@@ -34,15 +34,15 @@ const routes: Array<RouteRecordRaw> = [
         component: () => import("@/views/exception/404/NotFound.vue"),
     },
     {
-        path: '/admin',
-        name: 'admin',
-        component: import("@/views/admin/AdminSider.vue"),
+        path: ROUTES_CONSTANTS.ADMIN.path,
+        name: ROUTES_CONSTANTS.ADMIN.name,
+        component: import("@/views/admin/AdminSlider.vue"),
         meta: {requiresAuth: true},
-        redirect: '/admin/business',
+        redirect: ROUTES_CONSTANTS.ADMIN.children.BUSINESS,
         children: [
             {
-                path: 'business',
-                name: 'business',
+                path: ROUTES_CONSTANTS.ADMIN.children.BUSINESS.path,
+                name: ROUTES_CONSTANTS.ADMIN.children.BUSINESS.name,
                 component: import('@/views/admin/business/Business.vue'),
                 meta: {
                     requiresRole: ROLES.ADMIN,
@@ -50,8 +50,8 @@ const routes: Array<RouteRecordRaw> = [
                 },
             },
             {
-                path: 'business-type',
-                name: 'business-type',
+                path: ROUTES_CONSTANTS.ADMIN.children.BUSINESS_TYPE.path,
+                name: ROUTES_CONSTANTS.ADMIN.children.BUSINESS_TYPE.name,
                 component: import('@/views/admin/business/BusinessType.vue'),
                 meta: {
                     requiresRole: ROLES.ADMIN,
@@ -61,25 +61,16 @@ const routes: Array<RouteRecordRaw> = [
         ],
     },
     {
-        path: '/manager',
-        name: 'manager',
-        component: import("@/views/admin/AdminSider.vue"),
+        path: ROUTES_CONSTANTS.MANAGER.path,
+        name: ROUTES_CONSTANTS.MANAGER.name,
+        component: import("@/views/manager/ManagerSlider.vue"),
         meta: {requiresAuth: true},
-        redirect: '/manager/business',
+        redirect: ROUTES_CONSTANTS.MANAGER.children.ANOTHER,
         children: [
             {
-                path: 'business',
-                name: 'business',
-                component: import('@/views/admin/business/Business.vue'),
-                meta: {
-                    requiresRole: ROLES.MANAGER,
-                    requiresAuth: true
-                },
-            },
-            {
-                path: 'business-type',
-                name: 'BusinessType',
-                component: import('@/views/admin/business/BusinessType.vue'),
+                path: ROUTES_CONSTANTS.MANAGER.children.ANOTHER.path,
+                name: ROUTES_CONSTANTS.MANAGER.children.ANOTHER.name,
+                component: import('@/views/manager/Menu.vue'),
                 meta: {
                     requiresRole: ROLES.MANAGER,
                     requiresAuth: true
@@ -88,25 +79,16 @@ const routes: Array<RouteRecordRaw> = [
         ],
     },
     {
-        path: '/manager',
-        name: 'manager',
-        component: import("@/views/admin/AdminSider.vue"),
+        path: ROUTES_CONSTANTS.EMPLOYEE.path,
+        name: ROUTES_CONSTANTS.EMPLOYEE.name,
+        component: import("@/views/employee/EmployeeSlider.vue"),
         meta: {requiresAuth: true},
-        redirect: '/manager/business',
+        redirect: ROUTES_CONSTANTS.EMPLOYEE.children.SOMETHING,
         children: [
             {
-                path: 'business',
-                name: 'business',
-                component: import('@/views/admin/business/Business.vue'),
-                meta: {
-                    requiresRole: ROLES.MANAGER,
-                    requiresAuth: true
-                },
-            },
-            {
-                path: 'business-type',
-                name: 'BusinessType',
-                component: import('@/views/admin/business/BusinessType.vue'),
+                path: ROUTES_CONSTANTS.EMPLOYEE.children.SOMETHING.path,
+                name: ROUTES_CONSTANTS.EMPLOYEE.children.SOMETHING.name,
+                component: import('@/views/employee/Dashboard.vue'),
                 meta: {
                     requiresRole: ROLES.MANAGER,
                     requiresAuth: true
@@ -115,19 +97,20 @@ const routes: Array<RouteRecordRaw> = [
         ],
     },
     {
-        path: '/auth',
-        name: 'authentication',
-        redirect: '/auth/login',
+        path: ROUTES_CONSTANTS.AUTHENTICATION.path,
+        name: ROUTES_CONSTANTS.AUTHENTICATION.name,
+        component: () => import("@/views/home/auth/Authentication.vue"),
+        redirect: ROUTES_CONSTANTS.AUTHENTICATION.children.LOGIN,
         children: [
             {
-                path: '/auth/login',
-                name: 'login',
-                component: import('@/views/home/Login.vue'),
+                path: ROUTES_CONSTANTS.AUTHENTICATION.children.LOGIN.path,
+                name: ROUTES_CONSTANTS.AUTHENTICATION.children.LOGIN.name,
+                component: import('@/views/home/auth/Login.vue'),
             },
             {
-                path: '/auth/register',
-                name: 'register',
-                component: import('@/views/home/Register.vue'),
+                path: ROUTES_CONSTANTS.AUTHENTICATION.children.REGISTER.path,
+                name: ROUTES_CONSTANTS.AUTHENTICATION.children.REGISTER.name,
+                component: import('@/views/home/auth/Register.vue'),
             },
         ],
     },
@@ -145,9 +128,9 @@ route.beforeEach((to, from, next) => {
     const userRole = authStore?.user?.rolesCodes;
 
     if (userRole === null && requiresAuth) {
-        next({name: ROUTES_CONSTANTS.LOGIN.name});
+        next({name: ROUTES_CONSTANTS.AUTHENTICATION.children.LOGIN.name});
     } else if (requiresAuth && !authStore.isAuthenticated) {
-        next({name: ROUTES_CONSTANTS.LOGIN.name});
+        next({name: ROUTES_CONSTANTS.AUTHENTICATION.children.LOGIN.name});
     } else {
         next();
     }
