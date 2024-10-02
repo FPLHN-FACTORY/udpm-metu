@@ -1,22 +1,22 @@
 <template>
   <a-layout class="layout">
     <a-layout-header>
-      <div class="logo" />
+      <div class="logo"/>
       <a-menu
-        v-model:selectedKeys="selectedKeys"
-        theme="dark"
-        mode="horizontal"
-        :style="{ lineHeight: '64px' }"
+          v-model:selectedKeys="selectedKeys"
+          theme="dark"
+          mode="horizontal"
+          :style="{ lineHeight: '64px' }"
       >
         <a-menu-item
-          v-for="item in menuItems"
-          :key="item.key"
+            v-for="item in menuItems"
+            :key="item.key"
         >
           <router-link :to="item.path" @click="handleMenuClick(item.key)">{{ item.label }}</router-link>
         </a-menu-item>
       </a-menu>
     </a-layout-header>
-    
+
     <a-layout-content style="padding: 0 50px">
       <router-view></router-view>
     </a-layout-content>
@@ -28,27 +28,27 @@
 </template>
 
 <script lang="ts" setup>
-import { ref } from 'vue';
-import { useRouter } from 'vue-router';
+import {ref} from 'vue';
+import {useRouter} from 'vue-router';
+import {ROUTES_CONSTANTS} from "@/constants/path.ts";
 
 const selectedKeys = ref<string[]>(['1']);
 const route = useRouter();
 
 const menuItems = ref([
-  { key: '1', label: 'Giới thiệu', path: '/' },
-  { key: '2', label: 'Hướng dẫn sử dụng', path: '/instruction' },
-  { key: '7', label: 'Đăng nhập', path: '/login' },
-  { key: '8', label: 'Đăng ký', path: '/register' },
-  
-  
-  
+  {key: '1', label: 'Giới thiệu', path: '/'},
+  {key: '2', label: 'Hướng dẫn sử dụng', path: '/instruction'},
+  {key: '7', label: 'Đăng nhập', path: ROUTES_CONSTANTS.AUTHENTICATION.children.LOGIN},
+  {key: '8', label: 'Đăng ký', path: ROUTES_CONSTANTS.AUTHENTICATION.children.REGISTER},
+
+
 ]);
 
 const handleMenuClick = (key: string) => {
   selectedKeys.value = [key];
   const item = menuItems.value.find(item => item.key === key);
   if (item) {
-    router.push(item.path);
+    route.push(item.path);
   }
 };
 </script>
@@ -59,6 +59,7 @@ const handleMenuClick = (key: string) => {
   padding: 24px;
   background: #fff;
 }
+
 #components-layout-demo-top .logo {
   float: left;
   width: 120px;
@@ -66,6 +67,7 @@ const handleMenuClick = (key: string) => {
   margin: 16px 24px 16px 0;
   background: rgba(255, 255, 255, 0.3);
 }
+
 .ant-row-rtl #components-layout-demo-top .logo {
   float: right;
   margin: 16px 0 16px 24px;
@@ -73,11 +75,10 @@ const handleMenuClick = (key: string) => {
 </style>
 
 
-
 <script lang="ts">
 
-    export default {
-      name: 'Home',
-    };
+export default {
+  name: 'Home',
+};
 
 </script>
