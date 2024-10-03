@@ -19,6 +19,8 @@ public final class MappingConstant {
 
     /* MANAGER */
     public static final String API_MANAGER_FEATURE = API_MANAGER_PREFIX + "/feature"; // example admin
+    public static final String API_MANAGER_CREATE_WIDGET = API_MANAGER_PREFIX + "/create-widget"; // example admin
+    public static final String API_MANAGER_VIEW = API_MANAGER_PREFIX + "/View"; // example admin
 
     /* EMPLOYEE */
     public static final String API_EMPLOYEE_FEATURE = API_EMPLOYEE_PREFIX + "/feature"; // example admin

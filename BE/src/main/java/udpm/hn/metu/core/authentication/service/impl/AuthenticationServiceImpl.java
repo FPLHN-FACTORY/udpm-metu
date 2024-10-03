@@ -22,9 +22,12 @@ import udpm.hn.metu.entity.RefreshToken;
 import udpm.hn.metu.entity.User;
 import udpm.hn.metu.infrastructure.constant.enums.Role;
 import udpm.hn.metu.infrastructure.constant.enums.Status;
+import udpm.hn.metu.infrastructure.security.response.TokenUriResponse;
+import udpm.hn.metu.infrastructure.security.service.RefreshTokenService;
 import udpm.hn.metu.infrastructure.security.service.TokenProvider;
 import udpm.hn.metu.utils.AESPasswordCryptoUtil;
 
+import javax.crypto.SecretKey;
 import java.util.Optional;
 
 @Service
@@ -43,6 +46,8 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 
     private final AuthBusinessTypeRepository authBusinessTypeRepository;
 
+    private final RefreshTokenService refreshTokenService;
+
     @Override
     public ResponseObject<?> getRefreshToken(@Valid AuthRefreshRequest request) {
         try {
@@ -59,7 +64,8 @@ public class AuthenticationServiceImpl implements AuthenticationService {
             }
 
             String accessToken = tokenProvider.createToken(refreshTokenEntity.getUserId());
-            return ResponseObject.successForward(new AuthRefreshResponse(accessToken, refreshToken), "Get refresh token successfully");
+            return ResponseObject.successForward(new AuthRefreshResponse(accessToken, refreshToken),
+                    "Get refresh token successfully");
         } catch (Exception e) {
             return ResponseObject.errorForward("Internal Server Error", HttpStatus.INTERNAL_SERVER_ERROR);
         }
@@ -87,16 +93,21 @@ public class AuthenticationServiceImpl implements AuthenticationService {
             Optional<User> userOptional = authUserRepository.findByEmail(request.getEmail());
             if (userOptional.isPresent()) {
                 User user = userOptional.get();
-                String encodedPassword = AESPasswordCryptoUtil.encrypt(request.getPassword());
-                if (encodedPassword.matches(userOptional.get().getPassword())) {
-                    return ResponseObject.successForward(user, "Login Success");
+                String passwordSecret = user.getPasswordSecret();
+                SecretKey restoredKey = AESPasswordCryptoUtil.decodeKeyFromString(passwordSecret);
+                String decryptedPassword = AESPasswordCryptoUtil.decrypt(user.getPassword(), restoredKey);
+                if (decryptedPassword.matches(request.getPassword())) {
+                    String accessToken = tokenProvider.createToken(user.getId());
+                    String refreshToken = refreshTokenService.createRefreshToken(user.getId()).getRefreshToken();
+                    return ResponseObject.successForward(TokenUriResponse.getState(accessToken, refreshToken),
+                            "Get state successfully");
                 } else {
-                    return ResponseObject.errorForward("Incorrect password", HttpStatus.BAD_REQUEST);
+                    return ResponseObject.errorForward("Incorrect password", HttpStatus.INTERNAL_SERVER_ERROR);
                 }
             }
-            return ResponseObject.errorForward("User does not exits", HttpStatus.BAD_REQUEST);
+            return ResponseObject.errorForward("User does not exits", HttpStatus.INTERNAL_SERVER_ERROR);
         } catch (Exception e) {
-            log.info("😢😢 ~> Error encrypt login");
+            log.info("😢😢 ~> Error login");
             return ResponseObject.errorForward(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
@@ -105,7 +116,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
     public ResponseObject<?> register(AuthRegisterRequest request) {
         try {
             String email = request.getEmail();
-            Optional<BusinessType> businessTypeOptional = authBusinessTypeRepository.findById(request.getBusinessTypeId());
+            Optional<BusinessType> businessTypeOptional = authBusinessTypeRepository.findById(request.getBusinessType());
             if (businessTypeOptional.isPresent()) {
                 Business business = new Business();
                 business.setBusinessType(businessTypeOptional.get());
@@ -117,16 +128,22 @@ public class AuthenticationServiceImpl implements AuthenticationService {
                 User user = new User();
                 user.setBusiness(newBusiness);
                 user.setEmail(email);
-                String encodedPassword = AESPasswordCryptoUtil.encrypt(request.getPassword());
+                SecretKey secretKey = AESPasswordCryptoUtil.generateSecretKey();
+                String encodedPassword = AESPasswordCryptoUtil.encrypt(request.getPassword(), secretKey);
+                String encodeSecretKey = AESPasswordCryptoUtil.encodeKeyToString(secretKey);
                 user.setPassword(encodedPassword);
+                user.setPasswordSecret(encodeSecretKey);
                 user.setRole(Role.MANAGER);
                 user.setFullName(request.getFullName());
                 user.setCode(email.substring(0, email.indexOf("@")));
                 user.setStatus(Status.ACTIVE);
-                authUserRepository.save(user);
-                return ResponseObject.successForward(user, "Register Success");
+                String userId = authUserRepository.save(user).getId();
+                String accessToken = tokenProvider.createToken(userId);
+                String refreshToken = refreshTokenService.createRefreshToken(userId).getRefreshToken();
+                return ResponseObject.successForward(TokenUriResponse.getState(accessToken, refreshToken),
+                        "Get state successfully");
             }
-            return ResponseObject.errorForward("Business Type is empty", HttpStatus.BAD_REQUEST);
+            return ResponseObject.errorForward("Business Type is empty", HttpStatus.INTERNAL_SERVER_ERROR);
         } catch (Exception e) {
             log.info("😢😢 ~> Error encrypt register");
             return ResponseObject.errorForward(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
@@ -135,7 +152,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 
     @Override
     public ResponseObject<?> getBusinessType() {
-        return ResponseObject.successForward(authBusinessTypeRepository.findAll(), "Get list business type success");
+        return ResponseObject.successForward(authBusinessTypeRepository.getBusinessType(), "Get list business type success");
     }
 
 }

@@ -1,6 +1,6 @@
 import {ROUTES_CONSTANTS} from "@/constants/path";
 import {ACCESS_TOKEN_STORAGE_KEY, REFRESH_TOKEN_STORAGE_KEY, USER_INFO_STORAGE_KEY,} from "@/constants/storageKey";
-import {API_URL, PREFIX_API_AUTH} from "@/constants/url";
+import {API_URL, PREFIX_API_REFRESH} from "@/constants/url";
 import {DefaultResponse} from "@/utils/types/api.common";
 import {localStorageAction} from "@/utils/storage";
 import {getUserInformation} from "@/utils/token.helper";
@@ -36,7 +36,7 @@ request.interceptors.response.use(
             const refreshToken = localStorageAction.get(REFRESH_TOKEN_STORAGE_KEY);
             if (refreshToken) {
                 try {
-                    const response = await axios.post(`${PREFIX_API_AUTH}/refresh`, {
+                    const response = await axios.post(`${PREFIX_API_REFRESH}`, {
                         refreshToken,
                     }) as AxiosResponse<DefaultResponse<{ accessToken: string; refreshToken: string }>>;
                     const newAccessToken = response.data.data.accessToken;

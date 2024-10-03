@@ -39,10 +39,26 @@ export const ROUTES_CONSTANTS = {
                 path: "another",
                 name: "another",
             },
-            SOMETHING: {
-                path: "something",
-                name: "something",
+            WIDGET: {
+                path: "widget",
+                name: "widget",
             },
+            MENU: {
+                path: "menu",
+                name: "menu",
+            },
+            CREATE_MENU: {
+                path: "create-menu",
+                name: "create-menu",
+            },
+            COMPUTER_SCREEN: {
+                path: "/manager/computer-screen",
+                name: "computer-screen",
+            },
+            PHONE_SCREEN: {
+                path: "/manager/phone-screen",
+                name: "phone-screen",
+            }
         },
     },
     EMPLOYEE: {

@@ -37,6 +37,9 @@ public class User extends SubAuditEntity implements Serializable {
     @Column(name = "password", length = EntityProperties.LENGTH_PASSWORD)
     private String password;
 
+    @Column(name = "password_secret", length = EntityProperties.LENGTH_PASSWORD_SECRET)
+    private String passwordSecret;
+
     @Column(name = "role")
     @Enumerated(EnumType.ORDINAL)
     private Role role;

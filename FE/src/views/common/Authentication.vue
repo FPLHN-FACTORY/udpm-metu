@@ -51,7 +51,7 @@ import {
 
 const selectedKeys = ref<string[]>(['1']);
 const collapsed = ref<boolean>(false);
-const route = useRouter();
+const router = useRouter();
 
 // // Menu items
 const menuItems = ref([

@@ -136,7 +136,8 @@ public class SecurityConfig {
         );
         http.authorizeHttpRequests( // config author api manager
                 auth -> auth.requestMatchers(
-                                Helper.appendWildcard(MappingConstant.API_MANAGER_FEATURE)
+                                Helper.appendWildcard(MappingConstant.API_MANAGER_FEATURE),
+                                Helper.appendWildcard(MappingConstant.API_MANAGER_CREATE_WIDGET)
                                 )
                         .hasAnyAuthority(Role.MANAGER.name())
         );
