@@ -37,4 +37,9 @@ public class AESPasswordCryptoUtil {
         return new String(decryptedData, StandardCharsets.UTF_8);
     }
 
+    public static void main(String[] args) throws Exception {
+        String pass = encrypt("12345678");
+        System.out.println(pass);
+    }
+
 }

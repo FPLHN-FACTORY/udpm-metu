@@ -25,9 +25,14 @@ export const PREFIX_API_LOGIN = PREFIX_API_AUTH + `/login` as string;
 export const PREFIX_API_LOGOUT = PREFIX_API_AUTH + `/logout` as string;
 export const PREFIX_API_REGISTER = PREFIX_API_AUTH + `/register` as string;
 export const PREFIX_API_FORGOT_PASSWORD = PREFIX_API_AUTH + `/forgot-password` as string;
+export const PREFIX_API_REFRESH = PREFIX_API_AUTH + `/refresh` as string;
 
-// // ADMIN API
-// export const PREFIX_API_SUBJECT_ADMIN = `${API_URL}/admin/subjects` as string;
+// MANAGER API
+export const PREFIX_API_MANAGER = `${API_URL}/manager` as string;
+
+// AMIN API
+export const PREFIX_API_ADMIN = `${API_URL}/admin` as string;
+
 //
 // export const PREFIX_API_DEPARTMENT_ADMIN =
 //   `${API_URL}/admin/departments` as string;

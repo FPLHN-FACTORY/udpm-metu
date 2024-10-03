@@ -29,6 +29,5 @@ import logoUDPM from "@/assets/poly/udpm/logo-udpm-3.png";
   background-size: cover;
   background-position: center;
   height: 100vh;
-
 }
 </style>
