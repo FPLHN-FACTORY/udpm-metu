@@ -28,6 +28,8 @@ onMounted(() => {
 
     const user = getUserInformation(accessToken);
 
+    console.log(accessToken)
+
     authStore.login({
       user,
       accessToken,

@@ -27,10 +27,12 @@
     <a-button
         @click="handleSubmitLogin()"
         html-type="submit"
+        :loading="loading"
         class="h-12 w-full rounded-2xl bg-blue-700 text-white hover:bg-blue-900 hover:text-white cursor-pointer text-xs"
     >
       Đăng nhập
     </a-button>
+
 
     <span class="text-gray-500 cursor-default text-xs">Bạn chưa có tài khoản?</span>
 
@@ -71,11 +73,10 @@ import route from "@/routes/route.ts";
 import {computed, reactive, ref} from "vue";
 import {Form} from "ant-design-vue";
 import {toast} from "vue3-toastify";
-import {useGetUserInformation} from "@/services/service/auth/authentication.action.ts";
+import {useLogin} from "@/services/service/auth/authentication.action.ts";
 
-const { mutate: login } = useGetUserInformation();
-
-
+const {mutate: login} = useLogin();
+const loading = ref(false);
 
 interface LoginForm {
   email: string;
@@ -122,7 +123,10 @@ const formFields = computed(() => [
 const handleSubmitLogin = async () => {
   try {
     await validate();
-    login(modelRef);
+    login({
+      email: modelRef.email,
+      password: modelRef.password,
+    });
     toast.success("Đăng nhập thành công");
   } catch (error: any) {
     console.error("🚀 ~ onFinish login ~ error:", error);
@@ -132,6 +136,8 @@ const handleSubmitLogin = async () => {
     toast.error(
         error?.response?.data?.message || ERROR_MESSAGE.SOMETHING_WENT_WRONG
     );
+  } finally {
+    loading.value = false;
   }
 };
 
@@ -147,11 +153,3 @@ const handleLoginGoogle = () => {
 };
 
 </script>
-
-<style scoped>
-.ant-form-item-explain-error {
-  text-align: left !important;
-  font-size: 0.75rem !important;
-}
-
-</style>
