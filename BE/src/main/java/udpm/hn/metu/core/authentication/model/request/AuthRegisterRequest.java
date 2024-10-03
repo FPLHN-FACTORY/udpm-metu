@@ -26,7 +26,7 @@ public class AuthRegisterRequest {
     private String businessName;
 
     @NotBlank(message = "Business type ID is required")
-    private String businessTypeId;
+    private String businessType;
 
     @NotBlank(message = "Password is required")
     @Size(min = 8, message = "Password must be at least 8 characters long")

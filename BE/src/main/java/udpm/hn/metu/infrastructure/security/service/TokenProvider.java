@@ -116,11 +116,11 @@ public class TokenProvider {
                 .build()
                 .parseClaimsJws(token)
                 .getBody();
-        String emailFpt = claims.get("emailFpt", String.class);
-        if (emailFpt != null && !emailFpt.isEmpty()) {
-            return emailFpt;
+        String email = claims.get("email", String.class);
+        if (email != null && !email.isEmpty()) {
+            return email;
         }
-        return claims.get("emailFe", String.class);
+        return claims.get("email", String.class);
     }
 
     public boolean validateToken(String authToken) {

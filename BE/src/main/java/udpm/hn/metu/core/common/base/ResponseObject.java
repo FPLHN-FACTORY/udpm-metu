@@ -4,6 +4,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.springframework.http.HttpStatus;
+import udpm.hn.metu.entity.Business;
 
 import java.time.Instant;
 
@@ -27,6 +28,8 @@ public class ResponseObject<T> {
         this.status = status;
         this.message = message;
     }
+
+
 
     public void processResponseObject(T obj) {
         if (obj != null) {
