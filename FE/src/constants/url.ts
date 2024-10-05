@@ -30,7 +30,7 @@ export const PREFIX_API_REFRESH = PREFIX_API_AUTH + `/refresh` as string;
 // MANAGER API
 export const PREFIX_API_MANAGER = `${API_URL}/manager` as string;
 
-// AMIN API
+// ADMIN API
 export const PREFIX_API_ADMIN = `${API_URL}/admin` as string;
 
 //
