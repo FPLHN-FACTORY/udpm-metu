@@ -19,7 +19,7 @@ import java.io.Serializable;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class BusinessType extends AuditEntity implements Serializable {
+public class    BusinessType extends AuditEntity implements Serializable {
 
     @Column(name = "code", length = EntityProperties.LENGTH_CODE)
     private String code;

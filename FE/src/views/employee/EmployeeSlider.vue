@@ -1,72 +1,95 @@
 <template>
-
   <a-layout>
-    <a-layout-sider theme="light" v-model:collapsed="collapsed" :trigger="null" collapsible>
-      <div class="logo" style="width:100%; height: 70px;">QUẢN TRỊ VIÊN EMPLOYEE</div>
+    <a-layout-sider theme="light" :style="{width: '300px'}" v-model:collapsed="collapsed" :trigger="null" collapsible>
+      <div class="logo" style="width:100%; height: 70px;">LOGO</div>
       <a-menu v-model:selectedKeys="selectedKeys" theme="light" mode="inline">
-<!--        <a-menu-item v-for="item in menuItems" :key="item.key">-->
-<!--          <component :is="item.icon"/>-->
-<!--          <span><router-link :to="item.path" @click="handleMenuClick(item.key)">{{ item.label }}</router-link></span>-->
-<!--        </a-menu-item>-->
+
+        <template v-for="item in menuItems">
+          <a-menu-item :key="item.key" v-if="!item.children" @click="handleMenuClick(item.key)">
+            <component :is="item.icon" />
+            <span>{{ item.label }}</span>
+          </a-menu-item>
+
+          <a-sub-menu v-else>
+            <template #title>
+                            <span>
+                                <component :is="item.icon" />
+                                <span>{{ item.label }}</span>
+                            </span>
+            </template>
+
+            <a-menu-item v-for="child in item.children" :key="child.key"
+                         @click="handleMenuClick(child.key)">
+              {{ child.label }}
+            </a-menu-item>
+          </a-sub-menu>
+        </template>
+
       </a-menu>
     </a-layout-sider>
-
     <a-layout>
       <a-layout-header style="background: #fff; padding: 0">
-        <menu-unfold-outlined v-if="collapsed" class="trigger" @click="() => (collapsed = !collapsed)"/>
-        <menu-fold-outlined v-else class="trigger" @click="() => (collapsed = !collapsed)"/>
+        <menu-unfold-outlined v-if="collapsed" class="trigger" @click="() => (collapsed = !collapsed)" />
+        <menu-fold-outlined v-else class="trigger" @click="() => (collapsed = !collapsed)" />
       </a-layout-header>
       <a-layout-content :style="{ margin: '24px 16px', padding: '24px', background: '#fff', minHeight: '280px' }">
         <router-view></router-view>
       </a-layout-content>
     </a-layout>
   </a-layout>
-
 </template>
 
 
 <script lang="ts" setup>
-import {ref} from 'vue';
-import {useRouter} from 'vue-router';
-import {MenuFoldOutlined, MenuUnfoldOutlined,} from '@ant-design/icons-vue';
+import { ref } from 'vue';
+import { useRouter } from 'vue-router';
+import {
+  UserOutlined,
+  MenuUnfoldOutlined,
+  MenuFoldOutlined,
+} from '@ant-design/icons-vue';
 
-const collapsed = ref<boolean>(false);
 const selectedKeys = ref<string[]>(['1']);
-const route = useRouter();
-
-const menuItems = ref([]);
+const collapsed = ref<boolean>(false);
+const router = useRouter();
 
 // // Menu items
-// const menuItems = ref([
-//     {
-//         key: '1',
-//         label: 'Tổng quan',
-//         icon: UserOutlined,
-//         path: '/auth/dashboard',
-//     },
-//     {
-//         key: 'sub1',
-//         label: 'Thống kê',
-//         icon: UserOutlined,
-//         children: [
-//             { key: '2', label: 'Thống kê tương tác', path: '/auth/statistical-interaction' },
-//             { key: '3', label: 'Thống kê theo menu', path: '/auth/statistical-menu' },
-//             { key: '4', label: 'Thống kê theo nút', path: '/auth/statistical-button' },
-//         ],
-//     },
-//     {
-//         key: '5',
-//         label: 'Quản lý menu',
-//         icon: UserOutlined,
-//         path: '/auth/menu',
-//     },
-// ]);
+const menuItems = ref([
+  {
+    key: '1',
+    label: 'Tổng quan',
+    icon: UserOutlined,
+    path: '/auth/dashboard',
+  },
+  {
+    key: 'sub1',
+    label: 'Thống kê',
+    icon: UserOutlined,
+    children: [
+      { key: '2', label: 'Chi tiết tương tác', path: '/auth/statistical-interaction' },
+      { key: '3', label: 'Theo menu', path: '/auth/statistical-menu' },
+      { key: '4', label: 'Theo nút', path: '/auth/statistical-button' },
+    ],
+  },
+  {
+    key: '5',
+    label: 'Quản lý menu',
+    icon: UserOutlined,
+    path: '/auth/menu',
+  },
+
+]);
 
 const handleMenuClick = (key: string) => {
   selectedKeys.value = [key];
-  const item = menuItems.value.find(item => item.key === key);
+  const item = menuItems.value.find((menuItem) =>
+      menuItem.key === key || menuItem.children?.some((child) => child.key === key)
+  );
   if (item) {
-    route.push(item.path);
+    const target = item.children?.find((child) => child.key === key) || item;
+    if (target?.path) {
+      router.push(target.path);
+    }
   }
 };
 
@@ -95,19 +118,4 @@ const handleMenuClick = (key: string) => {
 .site-layout .site-layout-background {
   background: #fff;
 }
-
-.logo {
-  float: left;
-  width: 120px;
-  height: 31px;
-  margin: 16px 24px 16px 0;
-  background: rgba(255, 255, 255, 0.3);
-}
 </style>
-
-
-<script lang="ts">
-export default {
-  name: "AdminPage",
-}
-</script>
