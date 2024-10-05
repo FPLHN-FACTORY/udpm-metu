@@ -1,45 +1,66 @@
 package udpm.hn.metu.utils;
 
-import org.springframework.beans.factory.annotation.Value;
-
 import javax.crypto.Cipher;
+import javax.crypto.KeyGenerator;
+import javax.crypto.SecretKey;
 import javax.crypto.spec.SecretKeySpec;
-import java.nio.charset.StandardCharsets;
-import java.security.MessageDigest;
 import java.util.Base64;
 
 public class AESPasswordCryptoUtil {
 
-    @Value("${jwt.secret}")
-    private static String tokenSecret;
-
-    public static SecretKeySpec getSecretKey(String myKey) throws Exception {
-        byte[] key;
-        MessageDigest sha = MessageDigest.getInstance("SHA-256");
-        key = sha.digest(myKey.getBytes(StandardCharsets.UTF_8));
-        return new SecretKeySpec(key, "AES");
+    public static SecretKey generateSecretKey() throws Exception {
+        KeyGenerator keyGen = KeyGenerator.getInstance("AES");
+        keyGen.init(256);
+        return keyGen.generateKey();
     }
 
-    public static String encrypt(String data) throws Exception {
-        SecretKeySpec secretKey = getSecretKey(tokenSecret);
+    public static String encrypt(String data, SecretKey secretKey) throws Exception {
         Cipher cipher = Cipher.getInstance("AES");
         cipher.init(Cipher.ENCRYPT_MODE, secretKey);
-        byte[] encryptedData = cipher.doFinal(data.getBytes(StandardCharsets.UTF_8));
+        byte[] encryptedData = cipher.doFinal(data.getBytes());
         return Base64.getEncoder().encodeToString(encryptedData);
     }
 
-    public static String decrypt(String encryptedData) throws Exception {
-        SecretKeySpec secretKey = getSecretKey(tokenSecret);
+    public static String decrypt(String encryptedData, SecretKey secretKey) throws Exception {
         Cipher cipher = Cipher.getInstance("AES");
         cipher.init(Cipher.DECRYPT_MODE, secretKey);
         byte[] decodedData = Base64.getDecoder().decode(encryptedData);
         byte[] decryptedData = cipher.doFinal(decodedData);
-        return new String(decryptedData, StandardCharsets.UTF_8);
+        return new String(decryptedData);
     }
 
-    public static void main(String[] args) throws Exception {
-        String pass = encrypt("12345678");
-        System.out.println(pass);
+    public static String encodeKeyToString(SecretKey secretKey) {
+        return Base64.getEncoder().encodeToString(secretKey.getEncoded());
     }
 
+    public static SecretKey decodeKeyFromString(String encodedKey) {
+        byte[] decodedKey = Base64.getDecoder().decode(encodedKey);
+        return new SecretKeySpec(decodedKey, 0, decodedKey.length, "AES");
+    }
+
+    public static void main(String[] args) {
+        try {
+            SecretKey secretKey = AESPasswordCryptoUtil.generateSecretKey();
+
+            System.out.println(secretKey);
+
+            String pass = "Nghiaxpes1";
+            String encryptedEmail = AESPasswordCryptoUtil.encrypt(pass, secretKey);
+            System.out.println("Encrypted Password: " + encryptedEmail);
+
+            String decryptedEmail = AESPasswordCryptoUtil.decrypt(encryptedEmail, secretKey);
+            System.out.println("Decrypted Password: " + decryptedEmail);
+
+            String encodedKey = AESPasswordCryptoUtil.encodeKeyToString(secretKey);
+            System.out.println("Encoded Key: " + encodedKey);
+
+            SecretKey restoredKey = AESPasswordCryptoUtil.decodeKeyFromString(encodedKey);
+
+            String decryptedPasswordWithRestoredKey = AESPasswordCryptoUtil.decrypt(encryptedEmail, restoredKey);
+            System.out.println("Decrypted Email with Restored Key: " + decryptedPasswordWithRestoredKey);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 }

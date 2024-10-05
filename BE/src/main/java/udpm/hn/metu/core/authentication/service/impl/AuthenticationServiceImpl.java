@@ -25,6 +25,7 @@ import udpm.hn.metu.infrastructure.constant.enums.Status;
 import udpm.hn.metu.infrastructure.security.service.TokenProvider;
 import udpm.hn.metu.utils.AESPasswordCryptoUtil;
 
+import javax.crypto.SecretKey;
 import java.util.Optional;
 
 @Service
@@ -87,8 +88,10 @@ public class AuthenticationServiceImpl implements AuthenticationService {
             Optional<User> userOptional = authUserRepository.findByEmail(request.getEmail());
             if (userOptional.isPresent()) {
                 User user = userOptional.get();
-                String encodedPassword = AESPasswordCryptoUtil.encrypt(request.getPassword());
-                if (encodedPassword.matches(userOptional.get().getPassword())) {
+                String passwordSecret = user.getPasswordSecret();
+                SecretKey restoredKey = AESPasswordCryptoUtil.decodeKeyFromString(passwordSecret);
+                String decryptedPassword = AESPasswordCryptoUtil.decrypt(user.getPassword(), restoredKey);
+                if (decryptedPassword.matches(request.getPassword())) {
                     return ResponseObject.successForward(user, "Login Success");
                 } else {
                     return ResponseObject.errorForward("Incorrect password", HttpStatus.BAD_REQUEST);
@@ -96,7 +99,7 @@ public class AuthenticationServiceImpl implements AuthenticationService {
             }
             return ResponseObject.errorForward("User does not exits", HttpStatus.BAD_REQUEST);
         } catch (Exception e) {
-            log.info("😢😢 ~> Error encrypt login");
+            log.info("😢😢 ~> Error login");
             return ResponseObject.errorForward(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
@@ -117,8 +120,8 @@ public class AuthenticationServiceImpl implements AuthenticationService {
                 User user = new User();
                 user.setBusiness(newBusiness);
                 user.setEmail(email);
-                String encodedPassword = AESPasswordCryptoUtil.encrypt(request.getPassword());
-                user.setPassword(encodedPassword);
+//                String encodedPassword = AESPasswordCryptoUtil.encrypt(request.getPassword());
+//                user.setPassword(encodedPassword);
                 user.setRole(Role.MANAGER);
                 user.setFullName(request.getFullName());
                 user.setCode(email.substring(0, email.indexOf("@")));

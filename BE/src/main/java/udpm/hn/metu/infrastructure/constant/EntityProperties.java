@@ -11,7 +11,9 @@ public final class EntityProperties {
 
         public static final short LENGTH_NAME = 255;
 
-        public static final short LENGTH_PASSWORD = 5;
+        public static final short LENGTH_PASSWORD = 50;
+
+        public static final short LENGTH_PASSWORD_SECRET = 50;
 
         public static final short LENGTH_PHONE_NUMBER = 15;
 

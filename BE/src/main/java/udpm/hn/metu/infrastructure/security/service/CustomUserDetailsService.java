@@ -9,7 +9,6 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import udpm.hn.metu.entity.User;
-import udpm.hn.metu.infrastructure.constant.enums.Role;
 import udpm.hn.metu.infrastructure.security.repository.SecurityUserRepository;
 import udpm.hn.metu.infrastructure.security.user.UserPrincipal;
 
@@ -28,12 +27,11 @@ public class CustomUserDetailsService implements UserDetailsService {
     @Transactional
     public UserDetails loadUserByUsername(String email)
             throws UsernameNotFoundException {
-
         Optional<User> userOptional = userAuthRepository.findByEmail(email);
-        String role = Role.MANAGER.toString();
-
         if (userOptional.isPresent()) {
-            return UserPrincipal.create(userOptional.get(), role);
+            User user = userOptional.get();
+            String role = user.getRole().name();
+            return UserPrincipal.create(user, role);
         }
 
         throw new UsernameNotFoundException("User not found with email : " + email);

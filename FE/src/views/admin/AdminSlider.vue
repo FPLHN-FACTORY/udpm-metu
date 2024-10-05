@@ -30,7 +30,7 @@
     </a-layout-sider>
 
     <a-layout>
-      <a-layout-header class="pl-3 mt-1" >
+      <a-layout-header class="pl-3 mt-1" style="background-color: white">
         <div class="user-info flex items-center justify-between">
           <div class="cursor-pointer" @click="collapsed = !collapsed">
             <component
@@ -102,7 +102,7 @@ const menuItems = ref([
     label: 'Thống kê',
     icon: UserOutlined,
     children: [
-      {key: '2', label: 'Chi tiết tương tác', path: '/auth/statistical-interaction'},
+      {key: '2', label: 'Chi tiết tương tác', path: '/auth/ statistical-interaction'},
       {key: '3', label: 'Theo menu', path: '/auth/statistical-menu'},
       {key: '4', label: 'Theo nút', path: '/auth/statistical-button'},
     ],
