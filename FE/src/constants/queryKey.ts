@@ -1,3 +1,5 @@
+import {getListWidgetGroupByCategory} from "@/services/api/widget/widgetforms/widget-form.api.ts";
+
 export const queryKey = {
   common: {
 
@@ -14,8 +16,8 @@ export const queryKey = {
     another: {
 
     },
-    something: {
-
+    widget:{
+      WidgetGroupByCategory: "mWWidgetGroupByCategory"
     },
   },
 

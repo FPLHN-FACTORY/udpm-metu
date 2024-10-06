@@ -13,7 +13,8 @@ public enum WidgetType {
     BOOK,
     CALL_ME_BACK,
     CALL_NOW,
-    LIVE_CHAT;
+    LIVE_CHAT,
+    SMS ;
 
     public static List<String> getAllWidgetType() {
         return Arrays.stream(WidgetType.values())
