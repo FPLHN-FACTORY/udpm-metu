@@ -25,6 +25,11 @@ export type Widget = {
     top: string;
 }
 
+export type field = {
+    nameField: string,
+    required: boolean,
+  }
+
 export const extractIconUrl = (iconUrl: string) => {
     if (!iconUrl) {
         return '';
@@ -52,7 +57,7 @@ export const getListWidgetGroupByCategory = async () => {
         url: `${LIST_WIDGET_GROUP_BY_CATEGORY}`,
         method: "GET",
     })) as AxiosResponse<
-        DefaultResponse<ListWidgetGroupByCategory>
+        DefaultResponse<WidgetsGroupByCategory>
     >;
 
     return res.data;
