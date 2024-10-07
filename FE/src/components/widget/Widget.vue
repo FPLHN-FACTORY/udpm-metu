@@ -1,12 +1,17 @@
 <template>
   <div>
-    <a-modal :open="open" width="40%" title="Danh sách nút METU"
-             @cancel="handleClose">
+    <a-modal
+      :open="open"
+      width="40%"
+      title="Danh sách nút METU"
+      @cancel="handleClose"
+    >
       <div>
         <a-space style="width: 100%" direction="vertical" size="middle">
-          <hr>
-          <a-typography-title :level="5">Kho danh sách nút
-            <hr>
+          <hr />
+          <a-typography-title :level="5"
+            >Kho danh sách nút
+            <hr />
           </a-typography-title>
 
           <a-space style="width: 100%" direction="vertical" size="middle">
@@ -15,23 +20,32 @@
                 <p>Nút {{ item?.categoryName.toLowerCase() }}:</p>
                 <a-flex wrap="wrap" gap="small">
                   <template v-for="widget in item?.widgets">
-                    <a-card hoverable style="width: 75px;" @click="()=>{
-                      openFormWidget(widget);
-                    }">
+                    <a-card
+                      hoverable
+                      style="width: 75px"
+                      @click="
+                        () => {
+                          openFormWidget(widget);
+                        }
+                      "
+                    >
                       <template #cover>
                         <a-tooltip placement="top">
                           <template #title>
                             <span>{{ widget?.name }}</span>
                           </template>
                           <div class="flex justify-center">
-                            <img :src="extractIconUrl(widget?.iconUrl)[0]"
-                                 width="50px"
-                                 height="50px"
-                                 class="m-2"
+                            <img
+                              :src="extractIconUrl(widget?.iconUrl)[0]"
+                              width="50px"
+                              height="50px"
+                              class="m-2"
                             />
                           </div>
-                          <div class=" flex justify-center text-center">
-                            <p class="widget-description w-[70px]">{{ widget?.name }}</p>
+                          <div class="flex justify-center text-center">
+                            <p class="widget-description w-[70px]">
+                              {{ widget?.name }}
+                            </p>
                           </div>
                         </a-tooltip>
                       </template>
@@ -41,42 +55,96 @@
               </a-space>
             </template>
           </a-space>
-          <widget-book :widget="widgetProp.widget"
-                       @handleOpenCreateWidgetModal="handleOpen"
-                       @handleCloseModal="()=>{handleCloseWidgetModal(WidgetType.BOOK);}"
-                       :open="openWidgetBook"/>
-          <widget-call-me-back :widget="widgetProp.widget"
-                               @handleOpenCreateWidgetModal="handleOpen"
-                               @handleCloseModal="()=>{handleCloseWidgetModal(WidgetType.CALL_ME_BACK);}"
-                               :open="openWidgetCallMeBack"/>
-          <widget-call-now :widget="widgetProp.widget"
-                           @handleOpenCreateWidgetModal="handleOpen"
-                           @handleCloseModal="()=>{handleCloseWidgetModal(WidgetType.CALL_NOW);}"
-                           :open=" openWidgetCallNow"/>
-          <widget-email :widget="widgetProp.widget"
-                        @handleOpenCreateWidgetModal="handleOpen"
-                        @handleCloseModal="()=>{handleCloseWidgetModal(WidgetType.EMAIL);}"
-                        :open=" openWidgetEmail"/>
-          <widget-hotline :widget="widgetProp.widget"
-                          @handleOpenCreateWidgetModal="handleOpen"
-                          @handleCloseModal="()=>{handleCloseWidgetModal(WidgetType.HOTLINE);}"
-                          :open="openWidgetHotline"/>
-          <widget-link :widget="widgetProp.widget"
-                       @handleOpenCreateWidgetModal="handleOpen"
-                       @handleCloseModal="()=>{handleCloseWidgetModal(WidgetType.LINK);}"
-                       :open="openWidgetLink"/>
-          <widget-live-chat :widget="widgetProp.widget"
-                            @handleOpenCreateWidgetModal="handleOpen"
-                            @handleCloseModal="()=>{handleCloseWidgetModal(WidgetType.LIVE_CHAT);}"
-                            :open=" openWidgetLiveChat"/>
-          <widget-text :widget="widgetProp.widget"
-                       @handleOpenCreateWidgetModal="handleOpen"
-                       @handleCloseModal="()=>{handleCloseWidgetModal(WidgetType.TEXT);}"
-                       :open=" openWidgetText"/>
-          <widget-s-m-s :widget="widgetProp.widget"
-                       @handleOpenCreateWidgetModal="handleOpen"
-                       @handleCloseModal="()=>{handleCloseWidgetModal(WidgetType.SMS);}"
-                       :open="openWidgetSMS"/>
+          <widget-book
+            :widget="widgetProp.widget"
+            @handleOpenCreateWidgetModal="handleOpen"
+            @handleCloseModal="
+              () => {
+                handleCloseWidgetModal(WidgetType.BOOK);
+              }
+            "
+            :open="openWidgetBook"
+          />
+          <widget-call-me-back
+            :widget="widgetProp.widget"
+            @handleOpenCreateWidgetModal="handleOpen"
+            @handleCloseModal="
+              () => {
+                handleCloseWidgetModal(WidgetType.CALL_ME_BACK);
+              }
+            "
+            :open="openWidgetCallMeBack"
+          />
+          <widget-call-now
+            :widget="widgetProp.widget"
+            @handleOpenCreateWidgetModal="handleOpen"
+            @handleCloseModal="
+              () => {
+                handleCloseWidgetModal(WidgetType.CALL_NOW);
+              }
+            "
+            :open="openWidgetCallNow"
+          />
+          <widget-email
+            :widget="widgetProp.widget"
+            @handleOpenCreateWidgetModal="handleOpen"
+            @handleCloseModal="
+              () => {
+                handleCloseWidgetModal(WidgetType.EMAIL);
+              }
+            "
+            :open="openWidgetEmail"
+          />
+          <widget-hotline
+            :widget="widgetProp.widget"
+            @handleOpenCreateWidgetModal="handleOpen"
+            @handleCloseModal="
+              () => {
+                handleCloseWidgetModal(WidgetType.HOTLINE);
+              }
+            "
+            :open="openWidgetHotline"
+          />
+          <widget-link
+            :widget="widgetProp.widget"
+            @handleOpenCreateWidgetModal="handleOpen"
+            @handleCloseModal="
+              () => {
+                handleCloseWidgetModal(WidgetType.LINK);
+              }
+            "
+            :open="openWidgetLink"
+          />
+          <widget-live-chat
+            :widget="widgetProp.widget"
+            @handleOpenCreateWidgetModal="handleOpen"
+            @handleCloseModal="
+              () => {
+                handleCloseWidgetModal(WidgetType.LIVE_CHAT);
+              }
+            "
+            :open="openWidgetLiveChat"
+          />
+          <widget-text
+            :widget="widgetProp.widget"
+            @handleOpenCreateWidgetModal="handleOpen"
+            @handleCloseModal="
+              () => {
+                handleCloseWidgetModal(WidgetType.TEXT);
+              }
+            "
+            :open="openWidgetText"
+          />
+          <widget-s-m-s
+            :widget="widgetProp.widget"
+            @handleOpenCreateWidgetModal="handleOpen"
+            @handleCloseModal="
+              () => {
+                handleCloseWidgetModal(WidgetType.SMS);
+              }
+            "
+            :open="openWidgetSMS"
+          />
         </a-space>
       </div>
       <template #footer>
@@ -87,60 +155,54 @@
 </template>
 
 <script lang="ts" setup>
-import WidgetBook from '@/components/widget/forms/WidgetBook.vue'
-import WidgetCallMeBack from '@/components/widget/forms/WidgetCallMeBack.vue'
-import WidgetCallNow from '@/components/widget/forms/WidgetCallNow.vue'
-import WidgetEmail from '@/components/widget/forms/WidgetEmail.vue'
-import WidgetHotline from '@/components/widget/forms/WidgetHotline.vue'
-import WidgetLink from '@/components/widget/forms/WidgetLink.vue'
-import WidgetLiveChat from '@/components/widget/forms/WidgetLiveChat.vue'
-import WidgetText from '@/components/widget/forms/WidgetText.vue'
-import WidgetSMS from '@/components/widget/forms/WidgetSMS.vue'
+import WidgetBook from "@/components/widget/forms/WidgetBook.vue";
+import WidgetCallMeBack from "@/components/widget/forms/WidgetCallMeBack.vue";
+import WidgetCallNow from "@/components/widget/forms/WidgetCallNow.vue";
+import WidgetEmail from "@/components/widget/forms/WidgetEmail.vue";
+import WidgetHotline from "@/components/widget/forms/WidgetHotline.vue";
+import WidgetLink from "@/components/widget/forms/WidgetLink.vue";
+import WidgetLiveChat from "@/components/widget/forms/WidgetLiveChat.vue";
+import WidgetText from "@/components/widget/forms/WidgetText.vue";
+import WidgetSMS from "@/components/widget/forms/WidgetSMS.vue";
 
 import {
   WidgetType,
-  WidgetsGroupByCategory,
   Widget,
-  extractIconUrl
-} from '@/services/api/widget/widgetforms/widget-form.api.ts'
+  extractIconUrl,
+} from "@/services/api/widget/widgetforms/widget-form.api.ts";
 
-import {defineEmits, defineProps, reactive, ref} from 'vue'
+import { defineEmits, defineProps, reactive, ref } from "vue";
 
-let openWidgetText = ref<Boolean>(false);
-let openWidgetLink = ref<Boolean>(false);
-let openWidgetEmail = ref<Boolean>(false);
-let openWidgetBook = ref<Boolean>(false);
-let openWidgetCallMeBack = ref<Boolean>(false);
-let openWidgetCallNow = ref<Boolean>(false);
-let openWidgetHotline = ref<Boolean>(false);
-let openWidgetLiveChat = ref<Boolean>(false);
-let openWidgetSMS = ref<Boolean>(false);
+let openWidgetText = ref<boolean>(false);
+let openWidgetLink = ref<boolean>(false);
+let openWidgetEmail = ref<boolean>(false);
+let openWidgetBook = ref<boolean>(false);
+let openWidgetCallMeBack = ref<boolean>(false);
+let openWidgetCallNow = ref<boolean>(false);
+let openWidgetHotline = ref<boolean>(false);
+let openWidgetLiveChat = ref<boolean>(false);
+let openWidgetSMS = ref<boolean>(false);
 
 const widgetProp = reactive({
-  widget: Object as () => Widget
+  widget: {} as Widget,
 });
 
-const props = defineProps({
+defineProps({
   open: Boolean,
-  listWidgetGroupByCategory: Array as () => WidgetsGroupByCategory[],
+  listWidgetGroupByCategory: Array as () => any,
 });
-const emit = defineEmits(["handleCloseModal","handleOpenModal"]);
+const emit = defineEmits(["handleCloseModal", "handleOpenModal"]);
 
 const handleClose = () => {
-emit("handleCloseModal");
-  handleOpenCreateWidgetModal();
+  emit("handleCloseModal");
 };
-
-const handleOpenCreateWidgetModal = () => {
-  emit("handleOpenCreateWidgetModal");
-}
 
 const handleOpen = () => {
   emit("handleOpenModal");
-}
+};
 
 const openFormWidget = (widget: Widget) => {
-  widgetProp.widget = widget
+  widgetProp.widget = widget;
   handleClose();
   switch (widget?.type) {
     case WidgetType.TEXT:
@@ -173,7 +235,7 @@ const openFormWidget = (widget: Widget) => {
     default:
       return null;
   }
-}
+};
 
 const handleCloseWidgetModal = (type: WidgetType) => {
   switch (type) {
@@ -207,8 +269,7 @@ const handleCloseWidgetModal = (type: WidgetType) => {
     default:
       return null;
   }
-}
-
+};
 </script>
 
 <style scoped>
