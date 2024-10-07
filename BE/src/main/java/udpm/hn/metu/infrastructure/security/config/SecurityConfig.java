@@ -130,7 +130,8 @@ public class SecurityConfig {
         );
         http.authorizeHttpRequests( // config author api admin
                 auth -> auth.requestMatchers(
-                                Helper.appendWildcard(MappingConstant.API_ADMIN_FEATURE)
+                                Helper.appendWildcard(MappingConstant.API_ADMIN_FEATURE),
+                                Helper.appendWildcard(MappingConstant.API_ADMIN_PLAN_ORDER)
                         )
                         .hasAnyAuthority(Role.ADMIN.name())
         );

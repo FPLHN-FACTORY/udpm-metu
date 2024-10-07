@@ -1,4 +1,13 @@
 export const queryKey = {
+  common: {
+
+  },
+  admin: {
+    another: {
+
+    },
+    planorder:{
+      PlanOrder: "PlanOrder",
     common: {},
     authentication: {
         login: "loginKey",
