@@ -1,19 +1,48 @@
-import {login, Login} from "@/services/api/auth/authentication.api.ts";
-import {useMutation, useQueryClient} from "@tanstack/vue-query";
+import {getBusinessType, login, LoginForm, register, RegisterForm} from "@/services/api/auth/authentication.api.ts";
+import {useQuery, UseQueryReturnType} from "@tanstack/vue-query";
+import {queryKey} from "@/constants/queryKey.ts";
+import request from "@/services/request.ts";
+import {PREFIX_API_LOGIN} from "@/constants/url.ts";
+import {AxiosResponse} from "axios";
+import {DefaultResponse} from "@/utils/types/api.common.ts";
 
-export const useLogin = () => {
-    const queryClient = useQueryClient();
+export const useLogin = (
+    params: LoginForm,
+    options?: any
+): UseQueryReturnType<
+    Awaited<ReturnType<typeof login>>,
+    Error
+> => {
+    return useQuery({
+        queryKey: [queryKey.authentication.login],
+        queryFn: () => login(params),
+        ...options
+    });
+};
 
-    return useMutation({
-        mutationFn: (params: Login) =>
-            login(params),
-        onSuccess: () => {
-            queryClient.invalidateQueries({
-                queryKey: ["userInformationKey"],
-            });
-        },
-        onError: (error) => {
-            console.log("🚀 ~ useCreateDepartment ~ error:", error);
-        },
+export const useGetBusinessType = (
+    options?: any
+): UseQueryReturnType<
+    Awaited<ReturnType<typeof getBusinessType>>,
+    Error
+> => {
+    return useQuery({
+        queryKey: [queryKey.authentication.getBusinessType],
+        queryFn: () => getBusinessType(),
+        ...options
+    });
+}
+
+export const useRegister = (
+    params: RegisterForm,
+    options?: any
+): UseQueryReturnType<
+    Awaited<ReturnType<typeof register>>,
+    Error
+> => {
+    return useQuery({
+        queryKey: [queryKey.authentication.register],
+        queryFn: () => register(params),
+        ...options
     });
 };

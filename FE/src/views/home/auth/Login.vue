@@ -12,8 +12,7 @@
             :is="field.component"
             v-bind="field.props"
             v-model:value="modelRef[field.name]"
-        >
-        </component>
+        />
       </a-form-item>
     </a-form>
 
@@ -27,7 +26,7 @@
     <a-button
         @click="handleSubmitLogin()"
         html-type="submit"
-        :loading="loading"
+        :loading="isLoginPass"
         class="h-12 w-full rounded-2xl bg-blue-700 text-white hover:bg-blue-900 hover:text-white cursor-pointer text-xs"
     >
       Đăng nhập
@@ -38,10 +37,9 @@
 
     <div class="flex justify-center items-center flex-col">
       <button
-          @click="route.push(ROUTES_CONSTANTS.AUTHENTICATION.children.REGISTER)"
+          @click="route.push(ROUTES_CONSTANTS.AUTHENTICATION.children.REGISTER.name)"
           type="button"
           class="py-3.5 border-2 rounded-2xl w-full text-xs text-gray-900"
-          :disabled="isLoginProcessing"
       >
         Đăng ký miễn phí
       </button>
@@ -56,7 +54,7 @@
           @click="handleLoginGoogle"
           type="button"
           class="flex justify-center items-center py-3.5 border-2 rounded-2xl w-full text-xs text-gray-900"
-          :disabled="isLoginProcessing"
+          :disabled="isLoginGoogle"
       >
         <v-icon name="fc-google" class="mr-2"/>
         Google
@@ -70,18 +68,15 @@ import {URL_FRONTEND, URL_OAUTH2_GOOGLE} from "@/constants/url";
 import {ROUTES_CONSTANTS} from "@/constants/path.ts";
 import {ERROR_MESSAGE} from "@/constants/message.constant.ts";
 import route from "@/routes/route.ts";
-import {computed, reactive, ref} from "vue";
+import {computed, reactive, ref, watch} from "vue";
 import {Form} from "ant-design-vue";
 import {toast} from "vue3-toastify";
+import {keepPreviousData} from "@tanstack/vue-query";
 import {useLogin} from "@/services/service/auth/authentication.action.ts";
+import {LoginForm} from "@/services/api/auth/authentication.api.ts";
 
-const {mutate: login} = useLogin();
-const loading = ref(false);
-
-interface LoginForm {
-  email: string;
-  password: string;
-}
+const isLoginPass = ref(false);
+const isLoginGoogle = ref(false);
 
 const modelRef = reactive<LoginForm>({
   email: "",
@@ -120,14 +115,32 @@ const formFields = computed(() => [
   },
 ]);
 
+let buttonClicked = ref<Boolean>(false);
+
+const {data: state} = useLogin(modelRef, {
+  refetchOnWindowFocus: false,
+  placeholderData: keepPreviousData,
+  enabled: computed(() => buttonClicked.value)
+});
+
+watch(
+    () => state.value,
+    (result) => {
+      if (result?.data) {
+        window.location.href = `${URL_FRONTEND}?state=${result.data}`;
+      } else {
+        buttonClicked.value = false;
+        toast.error(
+            result?.response?.data?.message || ERROR_MESSAGE.SOMETHING_WENT_WRONG
+        );
+      }
+    }
+);
+
 const handleSubmitLogin = async () => {
   try {
     await validate();
-    login({
-      email: modelRef.email,
-      password: modelRef.password,
-    });
-    toast.success("Đăng nhập thành công");
+    buttonClicked.value = true;
   } catch (error: any) {
     console.error("🚀 ~ onFinish login ~ error:", error);
     if (error.errorFields) {
@@ -136,13 +149,8 @@ const handleSubmitLogin = async () => {
     toast.error(
         error?.response?.data?.message || ERROR_MESSAGE.SOMETHING_WENT_WRONG
     );
-  } finally {
-    loading.value = false;
   }
 };
-
-
-const isLoginProcessing = ref(false);
 
 const handleLoginGoogle = () => {
   console.log(
