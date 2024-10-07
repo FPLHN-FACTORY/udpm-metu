@@ -15,6 +15,7 @@ public interface AuthBusinessTypeRepository extends BusinessTypeRepository {
                     id as id,
                     name as name
                 FROM business_type
+                WHERE code != 'Individual'
             """, nativeQuery = true)
     List<AuthBusinessTypeResponse> getBusinessType();
 

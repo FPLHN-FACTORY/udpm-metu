@@ -1,24 +1,20 @@
-import {getListWidgetGroupByCategory} from "@/services/api/widget/widgetforms/widget-form.api.ts";
-
 export const queryKey = {
-  common: {
-
-  },
-  admin: {
-    another: {
-
+    common: {},
+    authentication: {
+        login: "loginKey",
+        logout: "logoutKey",
+        register: "registerKey",
+        getBusinessType: "authGetBusinessType",
     },
-    something: {
-
+    admin: {
+        another: {},
+        something: {},
     },
-  },
-  manager: {
-    another: {
-
+    manager: {
+        another: {},
+        widget: {
+            WidgetGroupByCategory: "mWWidgetGroupByCategory"
+        },
     },
-    widget:{
-      WidgetGroupByCategory: "mWWidgetGroupByCategory"
-    },
-  },
 
 };
