@@ -7,7 +7,7 @@ import {getUserInformation} from "@/utils/token.helper";
 import axios, {AxiosResponse} from "axios";
 
 const request = axios.create({
-    baseURL: `${API_URL}/api/`,
+    baseURL: `${API_URL}`,
 });
 
 request.interceptors.request.use((config) => {
