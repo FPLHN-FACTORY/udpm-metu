@@ -10,6 +10,6 @@ import java.util.List;
 
 public interface PlanOrderService {
 
-    ResponseObject<?> getAllPlanOrders(PlanOrderRequest request);
+    ResponseObject<List<PlanOrderResponse>> getAllPlanOrders(PlanOrderRequest request);
 
 }

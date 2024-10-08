@@ -9,11 +9,9 @@ import udpm.hn.metu.core.admin.planorder.model.request.PlanOrderRequest;
 import udpm.hn.metu.core.admin.planorder.model.response.PlanOrderResponse;
 import udpm.hn.metu.core.admin.planorder.repository.PlanOrderExtendRepository;
 import udpm.hn.metu.core.admin.planorder.service.PlanOrderService;
-import udpm.hn.metu.core.common.base.PageableObject;
 import udpm.hn.metu.core.common.base.ResponseObject;
 import udpm.hn.metu.entity.*;
 import udpm.hn.metu.infrastructure.constant.enums.Status;
-import udpm.hn.metu.utils.Helper;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -26,15 +24,28 @@ public class PlanOrderServiceImpl implements PlanOrderService {
     private final PlanOrderExtendRepository planOrderExtendRepository;
 
     @Override
-    public ResponseObject<?> getAllPlanOrders(PlanOrderRequest request) {
-        // Tạo đối tượng Pageable dựa trên các tham số trong request (có thể sắp xếp theo ngày tạo hoặc một cột khác)
-        Pageable pageable = Helper.createPageable(request);
+    public ResponseObject<List<PlanOrderResponse>> getAllPlanOrders(PlanOrderRequest request) {
+        Page<Object[]> page = planOrderExtendRepository.getAllPlanOrders(Pageable.unpaged(), request);
+        List<PlanOrderResponse> responses = new ArrayList<>();
 
-        return new ResponseObject<>(
-                PageableObject.of(planOrderExtendRepository.getAllPlanOrders(pageable, request)),
-                HttpStatus.OK,
-                "Get all plan order successfully"
-        );
+        for (Object[] obj : page) {
+            PlanOrderResponse response = new PlanOrderResponse();
+            response.setEmail((String) obj[0]);
+            response.setCreateAt((Long) obj[1]);
+            response.setExpirationDate((Long) obj[2]);
+            response.setPrice((Double) obj[3]);
+            response.setQuantity((Short) obj[4]);
+            response.setStatus((Status) obj[5]);
+
+            // Thêm business và plan vào danh sách
+            response.setBusinesses(Collections.singletonList((Business) obj[6]));
+            response.setPlans(Collections.singletonList((Plan) obj[7]));
+
+            responses.add(response);
+        }
+
+        return new ResponseObject<>(responses, HttpStatus.OK, "Lấy danh sách kế hoạch và doanh nghiệp thành công");
     }
-}
 
+
+}

@@ -1,32 +1,31 @@
-import { DefaultResponse, PaginationParams, PaginationResponse, ResponseList } from "@/utils/types/api.common";
-import { Ref } from "vue";
 import request from "@/services/request";
-import { API_ADMIN_PLAN_ORDER } from "@/constants/url";
 import { AxiosResponse } from "axios";
+import { DefaultResponse } from "@/utils/types/api.common";
+import { API_ADMIN_PLAN_ORDER } from "@/constants/url";
 
-// Các kiểu dữ liệu cho PlanOrder
-export interface ParamsGetPlanOrder extends PaginationParams {
-    name?: string,
-    status?: string
-    // Bạn có thể thêm các tham số khác nếu cần
-}
-
-export type PlanOrderResponse = ResponseList & {
-    id: string; // hoặc kiểu dữ liệu tương ứng
-    createAt: number;
-    expirationDate: number;
-    price: number;
-    quantity: number;
-    // Thêm các thuộc tính khác tương ứng với dữ liệu API của bạn
+// Định nghĩa hàm format Long thành Date
+const formatTimestampToDate = (timestamp: number): string => {
+    return new Date(timestamp * 1000).toLocaleDateString("vi-VN"); // Chuyển đổi timestamp từ giây sang Date và định dạng chỉ lấy ngày tháng năm
 };
 
-// Hàm gọi API để lấy danh sách PlanOrder
-export const getListPlanOrders = async (params: Ref<ParamsGetPlanOrder>): Promise<DefaultResponse<PaginationResponse<PlanOrderResponse[]>>> => {
-    const res = (await request({
+// Hàm gọi API để lấy dữ liệu PlanOrder
+export const getListPlanOrders = async (): Promise<DefaultResponse<any[]>> => {
+    const res = await request({
         url: `${API_ADMIN_PLAN_ORDER}`,
-        method: 'GET',
-        params: params.value,
-    })) as AxiosResponse<DefaultResponse<PaginationResponse<PlanOrderResponse[]>>>;
+        method: "GET",
+    }) as AxiosResponse<DefaultResponse<any[]>>;
 
-    return res.data;
+    // Format lại createAt, expDate và thêm STT, tổng tiền cho từng PlanOrder trước khi trả về
+    const formattedData = res.data.data.map((planOrder, index) => ({
+        ...planOrder,
+        createAt: formatTimestampToDate(planOrder.createAt), // Format createAt thành Date string
+        expDate: formatTimestampToDate(planOrder.expDate), // Format expDate thành Date string
+        stt: index + 1, // Thêm số thứ tự (STT), bắt đầu từ 1
+        totalPrice: planOrder.price * planOrder.quantity, // Tính tổng tiền = đơn giá * số lượng
+    }));
+
+    return {
+        ...res.data,
+        data: formattedData,
+    };
 };

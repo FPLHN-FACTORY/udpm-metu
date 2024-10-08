@@ -11,32 +11,27 @@ import udpm.hn.metu.repository.PlanOrderRepository;
 @Repository
 public interface PlanOrderExtendRepository extends PlanOrderRepository {
 
-    @Query(value = """
-    SELECT
-        po.email AS email,
-        po.createAt AS createAt,
-        po.expirationDate AS expirationDate,
-        po.price AS price,
-        po.quantity AS quantity,
-        po.status AS status,
-        b.name AS businessName,
-        p.name AS planName
-    FROM PlanOrder po
-    LEFT JOIN po.business b
-    LEFT JOIN po.plan p
-    WHERE
-        (:#{#request.email} IS NULL OR po.email LIKE CONCAT('%',:#{#request.email},'%'))
-        AND (:#{#request.status} IS NULL OR po.status = :#{#request.status})
-    ORDER BY po.id DESC
+    @Query(
+            value = """
+        SELECT 
+            po.email AS email,
+            po.createAt AS createAt,
+            po.expirationDate AS expirationDate,
+            po.price AS price,
+            po.quantity AS quantity,
+            po.status AS status,
+            po.business AS business,
+            po.plan AS plan
+        FROM PlanOrder po
+        WHERE 
+            (:#{#request.email} IS NULL OR po.email LIKE CONCAT('%',:#{#request.email},'%'))
+            AND (:#{#request.status} IS NULL OR po.status = :#{#request.status})
     """,
             countQuery = """
-    SELECT COUNT(po)
-    FROM PlanOrder po
-    LEFT JOIN po.business b
-    LEFT JOIN po.plan p
-    WHERE
-        (:#{#request.email} IS NULL OR po.email LIKE CONCAT('%',:#{#request.email},'%'))
-        AND (:#{#request.status} IS NULL OR po.status = :#{#request.status})
+        SELECT COUNT(po) FROM PlanOrder po
+        WHERE 
+            (:#{#request.email} IS NULL OR po.email LIKE CONCAT('%',:#{#request.email},'%'))
+            AND (:#{#request.status} IS NULL OR po.status = :#{#request.status})
     """,
             nativeQuery = false
     )
