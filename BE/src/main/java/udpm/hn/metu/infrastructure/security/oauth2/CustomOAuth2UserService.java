@@ -16,9 +16,9 @@ import udpm.hn.metu.infrastructure.constant.enums.Status;
 import udpm.hn.metu.infrastructure.security.exception.OAuth2AuthenticationProcessingException;
 import udpm.hn.metu.infrastructure.security.oauth2.user.OAuth2UserInfo;
 import udpm.hn.metu.infrastructure.security.oauth2.user.OAuth2UserInfoFactory;
-import udpm.hn.metu.infrastructure.security.repository.SecurityBusinessRepository;
-import udpm.hn.metu.infrastructure.security.repository.SecurityBusinessTypeRepository;
-import udpm.hn.metu.infrastructure.security.repository.SecurityUserRepository;
+import udpm.hn.metu.core.manager.example.controller.repository.SecurityBusinessRepository;
+import udpm.hn.metu.core.manager.example.controller.repository.SecurityBusinessTypeRepository;
+import udpm.hn.metu.core.manager.example.controller.repository.SecurityUserRepository;
 import udpm.hn.metu.infrastructure.security.user.UserPrincipal;
 
 import java.util.Optional;
