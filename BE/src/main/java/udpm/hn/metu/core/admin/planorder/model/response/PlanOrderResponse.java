@@ -18,7 +18,7 @@ public class PlanOrderResponse {
 
     private Long createAt;              // Ngày tạo
 
-    private Long expDate;               // Ngày hết hạn
+    private Long expirationDate;               // Ngày hết hạn
 
     private Double price;               // Giá
 

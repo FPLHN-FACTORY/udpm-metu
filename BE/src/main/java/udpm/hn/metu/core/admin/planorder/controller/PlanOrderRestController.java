@@ -1,12 +1,9 @@
 package udpm.hn.metu.core.admin.planorder.controller;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import udpm.hn.metu.core.admin.planorder.model.request.PlanOrderRequest;
 import udpm.hn.metu.core.admin.planorder.service.PlanOrderService;
 import udpm.hn.metu.infrastructure.constant.MappingConstant;
@@ -21,7 +18,7 @@ public class PlanOrderRestController {
     private final PlanOrderService planOrderService; // Đánh dấu là final
 
     @GetMapping
-    public ResponseEntity<?> getAllPlanOrder() {
-        return Helper.createResponseEntity(planOrderService.getAllPlanOrders());
+    public ResponseEntity<?> getAllPlanOrder(@ModelAttribute PlanOrderRequest request) {
+        return Helper.createResponseEntity(planOrderService.getAllPlanOrders(request));
     }
 }

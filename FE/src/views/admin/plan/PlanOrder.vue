@@ -3,12 +3,12 @@
     <a-input-search
       v-model="searchQuery"
       placeholder="Tìm kiếm..."
-      @search="onSearch"
+      @input="onSearch"
       class="mb-4"
     />
     <MetuTable
       :columns="columns"
-      :dataSource="planOrderData"
+      :dataSource="filteredPlanOrderData"
       :loading="isLoading"
       :paginationParams="paginationParams"
       :totalPages="totalPages"
@@ -20,53 +20,51 @@
 
 <script setup lang="ts">
 import MetuTable from "@/components/forms/MetuTable.vue";
+import { ref, computed, watch } from "vue";
 import { useGetListPlanOrder } from "@/services/service/plan/planorder/planorder.action";
-import { ref, computed, onMounted } from "vue";
 
+// Trạng thái tìm kiếm
 const searchQuery = ref("");
 const paginationParams = ref({ page: 1, size: 10 });
 
-const planOrderData = ref([]);
-const isLoading = ref(false);
-
-const fetchPlanOrderData = async () => {
-  try {
-    isLoading.value = true;
-    const { data } = await useGetListPlanOrder();
-    planOrderData.value = data.value?.data;
-  } catch (error) {
-    console.error("Error fetching plan order data:", error);
-  } finally {
-    isLoading.value = false;
-  }
-};
-
-onMounted(async () => {
-  await fetchPlanOrderData();
+// Gọi hook để lấy danh sách đơn đặt kế hoạch từ API và quản lý trạng thái tải
+const { data: listPlanOrders, isLoading, refetch } = useGetListPlanOrder({
+  refetchOnWindowFocus: false, // Không tự động gọi lại API khi tab được kích hoạt
 });
 
+// Dữ liệu đã lọc theo tìm kiếm
 const filteredPlanOrderData = computed(() => {
-  if (searchQuery.value) {
-    return planOrderData.value?.filter((item) =>
-      item.email.toLowerCase().includes(searchQuery.value.toLowerCase())
-    );
-  }
-  return planOrderData.value;
+  const planOrders = listPlanOrders?.value?.data || [];
+  return planOrders; // Chúng ta không cần lọc ở đây mà sẽ gọi API với query
 });
 
+// Tính toán tổng số trang
 const totalPages = computed(() => 
-  Math.ceil(filteredPlanOrderData.value?.length / paginationParams.value.size)
+  Math.ceil(listPlanOrders?.value?.data?.length / paginationParams.value.size)
 );
 
+// Cập nhật cột để bao gồm STT
 const columns = [
+  { title: "STT", dataIndex: "stt", key: "stt" }, // Thêm cột STT
+  { title: "Tên doanh nghiệp", dataIndex: ["businesses", 0, "name"], key: "businessName" },
   { title: "Email", dataIndex: "email", key: "email" },
-  { title: "Ngày tạo", dataIndex: "createAt", key: "createAt", render: (text) => new Date(text).toLocaleString() },
-  { title: "Ngày hết hạn", dataIndex: "expDate", key: "expDate", render: (text) => new Date(text).toLocaleString() },
+  {
+    title: "Ngày tạo",
+    dataIndex: "createAt",
+    key: "createAt",
+    render: (text) => new Date(text * 1000).toLocaleString(), // Định dạng lại ngày
+  },
+  {
+    title: "Ngày hết hạn",
+    dataIndex: "expirationDate",
+    key: "expirationDate",
+    render: (text) => new Date(text * 1000).toLocaleString(), // Định dạng lại ngày
+  },
   { title: "Giá", dataIndex: "price", key: "price", render: (text) => `$${text.toFixed(2)}` },
   { title: "Số lượng", dataIndex: "quantity", key: "quantity" },
+  { title: "Tổng tiền", dataIndex: "totalPrice", key: "totalPrice" },
   { title: "Trạng thái", dataIndex: "status", key: "status" },
   { title: "Tên Plan", dataIndex: ["plans", 0, "name"], key: "planName" },
-  { title: "Tên Business", dataIndex: ["businesses", 0, "name"], key: "businessName" },
 ];
 
 // Hàm xử lý khi bảng thay đổi
@@ -76,12 +74,31 @@ const handleTableChange = (pagination, filters, sorter) => {
     page: pagination.current,
     size: pagination.pageSize,
   };
-  fetchPlanOrderData(); // Gọi lại dữ liệu mới
+  refetch(); // Gọi lại API với tham số phân trang mới
 };
 
 // Cập nhật tham số phân trang
 const updatePaginationParams = (newParams) => {
   paginationParams.value = newParams;
-  fetchPlanOrderData(); // Gọi lại dữ liệu mới
+  refetch(); // Gọi lại API với tham số phân trang mới
 };
+
+// // Hàm xử lý tìm kiếm
+// const onSearch = () => {
+//   refetch({ 
+//     email: searchQuery.value, // Truyền lại tham số tìm kiếm email
+//     page: paginationParams.value.page, // Truyền lại trang hiện tại
+//     size: paginationParams.value.size // Truyền lại kích thước trang
+//   });
+// };
+
+// // Theo dõi sự thay đổi của searchQuery để gọi lại API
+// watch(searchQuery, (newValue) => {
+//   refetch({ 
+//     email: newValue, // Truyền lại tham số tìm kiếm email mới
+//     page: paginationParams.value.page, // Truyền lại trang hiện tại
+//     size: paginationParams.value.size // Truyền lại kích thước trang
+//   });
+// });
+
 </script>
