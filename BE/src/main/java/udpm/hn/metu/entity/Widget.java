@@ -45,4 +45,5 @@ public class Widget extends AuditEntity implements Serializable {
     @Column(name = "top")
     private Boolean top;
 
+
 }

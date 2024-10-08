@@ -9,7 +9,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import udpm.hn.metu.entity.User;
-import udpm.hn.metu.infrastructure.security.repository.SecurityUserRepository;
+import udpm.hn.metu.core.manager.example.controller.repository.SecurityUserRepository;
 import udpm.hn.metu.infrastructure.security.user.UserPrincipal;
 
 import java.util.Optional;

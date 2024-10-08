@@ -17,7 +17,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 import udpm.hn.metu.entity.User;
-import udpm.hn.metu.infrastructure.security.repository.SecurityUserRepository;
+import udpm.hn.metu.core.manager.example.controller.repository.SecurityUserRepository;
 import udpm.hn.metu.infrastructure.security.response.TokenSubjectResponse;
 import udpm.hn.metu.infrastructure.security.user.UserPrincipal;
 

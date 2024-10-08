@@ -6,8 +6,8 @@ import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 import udpm.hn.metu.entity.RefreshToken;
 import udpm.hn.metu.entity.User;
-import udpm.hn.metu.infrastructure.security.repository.SecurityRefreshTokenRepository;
-import udpm.hn.metu.infrastructure.security.repository.SecurityUserRepository;
+import udpm.hn.metu.core.manager.example.controller.repository.SecurityRefreshTokenRepository;
+import udpm.hn.metu.core.manager.example.controller.repository.SecurityUserRepository;
 import udpm.hn.metu.infrastructure.security.user.UserPrincipal;
 import udpm.hn.metu.utils.DateTimeUtil;
 

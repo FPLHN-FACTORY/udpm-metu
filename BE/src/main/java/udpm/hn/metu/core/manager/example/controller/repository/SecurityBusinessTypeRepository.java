@@ -1,4 +1,4 @@
-package udpm.hn.metu.infrastructure.security.repository;
+package udpm.hn.metu.core.manager.example.controller.repository;
 
 import udpm.hn.metu.entity.BusinessType;
 import udpm.hn.metu.repository.BusinessTypeRepository;
