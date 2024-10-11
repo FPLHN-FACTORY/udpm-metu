@@ -29,7 +29,7 @@ import { Form } from "ant-design-vue";
 import { computed, reactive, watch } from "vue";
 import { toast } from "vue3-toastify";
 
-interface SubjectForm {
+interface BusinessTypeForm {
     name: string;
     description: string;
 }
@@ -45,7 +45,7 @@ const emit = defineEmits(["handleClose"]);
 const { mutate: createBusinessType } = useCreateBusinessType();
 const { mutate: updateBusinessType } = useUpdateBusinessType();
 
-const modelRef = reactive<SubjectForm>({
+const modelRef = reactive<BusinessTypeForm>({
     name: "",
     description: "",
 });

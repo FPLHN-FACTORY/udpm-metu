@@ -30,7 +30,7 @@ const emit = defineEmits(["filter"]);
 
 const debouncedEmit = debounce(() => {
   emit("filter", params.value);
-}, 2000);
+}, 500);
 
 function onChange(key: keyof ParamsFilterBusinessType, event: Event) {
   if (
