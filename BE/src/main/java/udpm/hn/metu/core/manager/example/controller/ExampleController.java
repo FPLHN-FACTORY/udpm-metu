@@ -13,7 +13,7 @@ import udpm.hn.metu.infrastructure.constant.MappingConstant;
 import udpm.hn.metu.utils.Helper;
 
 @RestController
-@RequestMapping(MappingConstant.API_MANAGER_FEATURE)
+@RequestMapping(MappingConstant.API_ADMIN_FEATURE)
 @RequiredArgsConstructor
 public class ExampleController {
 

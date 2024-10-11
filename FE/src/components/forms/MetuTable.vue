@@ -153,7 +153,12 @@ const computedScroll = computed(() => {
     tableWrapper.value.scrollHeight > y;
 
   return isScrollable
+<<<<<<< HEAD
     ? { y: props.scroll?.y || y, x: props.scroll?.x || "none" }
     : { x: props.scroll?.x || "none" };
+=======
+      ? { y: props.scroll?.y || y, x: props.scroll?.x || "none" }
+      : { x: props.scroll?.x || "none" };
+>>>>>>> dev
 });
 </script>
