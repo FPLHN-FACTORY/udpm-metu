@@ -30,7 +30,7 @@ import { computed, reactive, watch } from "vue";
 import { toast } from "vue3-toastify";
 
 interface SubjectForm {
-    businessTypeName: string;
+    name: string;
     description: string;
 }
 
@@ -46,12 +46,12 @@ const { mutate: createBusinessType } = useCreateBusinessType();
 const { mutate: updateBusinessType } = useUpdateBusinessType();
 
 const modelRef = reactive<SubjectForm>({
-    businessTypeName: "",
+    name: "",
     description: "",
 });
 
 const rulesRef = reactive({
-    businessTypeName: [
+    name: [
         { required: true, message: "Vui lòng nhập tên thể loại doanh nghiệp", trigger: "blur" },
         { min: 5, max: 255, message: "Tên thể loại doanh nghiệp phải từ 5 đến 255 ký tự", trigger: "blur" },
     ],
@@ -80,7 +80,7 @@ watch(
     (newVal) => {
         if (newVal) {
             Object.assign(modelRef, {
-                businessTypeName: newVal.businessTypeName,
+                name: newVal.name,
                 description: newVal.description,
             });
         } else {
@@ -93,7 +93,7 @@ watch(
 const formFields = computed(() => [
     {
         label: "Tên thể loại doanh nghiệp",
-        name: "businessTypeName",
+        name: "name",
         component: "a-input",
         props: { placeholder: "Nhập tên thể loại doanh nghiệp" },
     },
@@ -107,7 +107,7 @@ const formFields = computed(() => [
 
 const handleAddOrUpdate = async () => {
     const payload = {
-        businessTypeName: modelRef.businessTypeName,
+        name: modelRef.name,
         description: modelRef.description,
     };
 

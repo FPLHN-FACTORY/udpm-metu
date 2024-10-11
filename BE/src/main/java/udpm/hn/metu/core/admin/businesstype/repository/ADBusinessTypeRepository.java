@@ -7,10 +7,8 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 import udpm.hn.metu.core.admin.businesstype.model.request.ADBusinessTypeRequest;
 import udpm.hn.metu.core.admin.businesstype.model.response.ADBusinessTypeResponse;
-import udpm.hn.metu.entity.BusinessType;
 import udpm.hn.metu.repository.BusinessTypeRepository;
 
-import java.util.List;
 import java.util.Optional;
 
 @Repository

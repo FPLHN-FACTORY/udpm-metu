@@ -12,7 +12,7 @@
       @handleOpenModalUpdate="handleOpenModalUpdate" @handleOpenModalAdd="handleOpenModalAdd"
       @handle-confirm-delete="handleConfirmDelete" />
     <CreateUpdateBusinessTypeModal :open="open" @handleClose="handleClose" @cancel="open = false"
-      :subject-detail="businessTypeDetail || null" :is-loading-detail="isLoadingDetail || false" />
+      :BusinessTypeDetail="businessTypeDetail || null" :is-loading-detail="isLoadingDetail || false" />
   </div>
 </template>
 

@@ -11,8 +11,6 @@ import udpm.hn.metu.core.admin.businesstype.service.ADBusinessTypeService;
 import udpm.hn.metu.infrastructure.constant.MappingConstant;
 import udpm.hn.metu.utils.Helper;
 
-import java.util.List;
-
 @RequestMapping(MappingConstant.API_ADMIN_BUSINESS_TYPE)
 @RestController
 public class ADBusinessTypeRestController {

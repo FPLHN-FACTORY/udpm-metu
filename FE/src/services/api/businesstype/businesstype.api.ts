@@ -16,7 +16,7 @@ export type BusinessTypeResponse = ResponseList & {
 };
 
 export interface CreateUpdateBusinessTypeParams {
-  businessTypeName: string;
+  name: string;
   description: string;
 }
 

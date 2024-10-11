@@ -1,236 +1,239 @@
 <template>
-  <a-form
-      layout="horizontal"
-      :model="formRegister"
-      name="basic"
-      :wrapper-col="{ span: 30 }"
-      autocomplete="off"
-      @finish="onFinish"
-  >
-    <a-form-item
-        name="fullName"
-        :validate-status="errors.fullName ? 'error' : ''"
-        :help="errors.fullName"
-    >
-      <a-input class="custom-input" v-model:value="formRegister.fullName" placeholder="Họ và tên"/>
-    </a-form-item>
-    <a-form-item
-        name="email"
-        :validate-status="errors.email ? 'error' : ''"
-        :help="errors.email"
-    >
-      <a-input class="custom-input" v-model:value="formRegister.email" placeholder="Email"/>
-    </a-form-item>
-    <a-form-item
-        name="businessName"
-        :validate-status="errors.businessName ? 'error' : ''"
-        :help="errors.businessName"
-    >
-      <a-input class="custom-input" v-model:value="formRegister.businessName"
-               placeholder="Tên công ty/doanh nghiệp"/>
-    </a-form-item>
-    <a-form-item
-        name="businessTypeId"
-        :validate-status="errors.businessTypeId ? 'error' : ''"
-        :help="errors.businessTypeId"
-    >
-      <a-select v-model:value="formRegister.businessTypeId" placeholder="Lĩnh vực">
-        <a-select-option
-            v-for="option in businessTypeList"
-            :key="option.id"
-            :value="option.id"
-        >
-          {{ option.name }}
-        </a-select-option>
-      </a-select>
-    </a-form-item>
-    <a-form-item name="password"
-                 :validate-status="errors.password ? 'error' : ''"
-                 :help="errors.password">
-      <a-input-password class="custom-input" v-model:value="formRegister.password" placeholder="Mật khẩu"/>
-    </a-form-item>
-    <a-form-item name="rePassword"
-                 :validate-status="errors.rePassword ? 'error' : ''"
-                 :help="errors.rePassword">
-      <a-input-password class="custom-input" v-model:value="formRegister.rePassword"
-                        placeholder="Xác nhận mật khẩu"/>
-    </a-form-item>
+  <div class="text-center flex flex-col gap-5">
+    <a-form layout="vertical" class="text-left text-xs flex flex-col gap-5">
+      <a-form-item
+          class="m-0"
+          v-for="field in formFields"
+          :name="field.name"
+          v-bind="validateInfos[field.name]"
+      >
+        <component
+            v-if="field.component.includes('a-input')"
+            :is="field.component"
+            v-bind="field.props"
+            v-model:value="modelRef[field.name]"
+            v-bind:class="{
+                'h-12 rounded-2 text-xs': true,
+                'some-other-class': true,
+            }"
+        />
+        <component
+            v-else
+            :is="field.component"
+            v-bind="field.props"
+            :options="businessTypesData"
+            v-model:value="modelRef[field.name]"
+            size="large"
+            class="h-12 rounded-2 text-xs"
+        />
+      </a-form-item>
+    </a-form>
 
-    <a-form-item class="text-center">
-      <a-button html-type="submit" class="custom-button">Đăng ký</a-button>
-    </a-form-item>
-    <a-form-item class="text-center">
-      <p>
-        Bạn đã có tài khoản?
-        <router-link to="/login" class="text-blue-500 hover:underline">Đăng nhập tại đây</router-link>
-      </p>
-    </a-form-item>
-  </a-form>
+    <a-button
+        @click="handleSubmitRegister()"
+        html-type="submit"
+        :loading="isRegisterPass"
+        class="h-12 w-full rounded-2xl bg-blue-700 text-white hover:bg-blue-900 hover:text-white cursor-pointer text-xs"
+    >
+      Đăng ký
+    </a-button>
+
+
+    <span class="text-gray-500 cursor-default text-xs">Bạn đã có tài khoản?</span>
+
+    <div class="flex justify-center items-center flex-col">
+      <button
+          @click="route.push(ROUTES_CONSTANTS.AUTHENTICATION.children.LOGIN.name)"
+          type="button"
+          class="py-3.5 border-2 rounded-2xl w-full text-xs text-gray-900"
+      >
+        Đăng nhập
+      </button>
+    </div>
+
+    <span class="text-gray-500 cursor-default text-xs">
+      Or sign up with
+    </span>
+
+    <div class="flex justify-center items-center flex-col">
+      <button
+          @click="handleRegisterGoogle"
+          type="button"
+          class="flex justify-center items-center py-3.5 border-2 rounded-2xl w-full text-xs text-gray-900"
+          :disabled="isRegisterGoogle"
+      >
+        <v-icon name="fc-google" class="mr-2"/>
+        Google
+      </button>
+    </div>
+  </div>
 </template>
 
 <script lang="ts" setup>
-import {onMounted, reactive, ref} from 'vue'
-import {useRouter} from 'vue-router'
-// import {UserService} from '@/services/service/auth/register.service.ts'
-import {toast} from "vue3-toastify"
 
-const router = useRouter()
+import {URL_FRONTEND, URL_OAUTH2_GOOGLE} from "@/constants/url";
+import {ROUTES_CONSTANTS} from "@/constants/path.ts";
+import {ERROR_MESSAGE} from "@/constants/message.constant.ts";
+import route from "@/routes/route.ts";
+import {computed, reactive, ref, watch} from "vue";
+import {toast} from "vue3-toastify";
+import {keepPreviousData} from "@tanstack/vue-query";
+import {useGetBusinessType, useRegister} from "@/services/service/auth/authentication.action.ts";
+import {BusinessType, RegisterForm} from "@/services/api/auth/authentication.api.ts";
+import {Form} from "ant-design-vue";
 
-const businessTypeList = ref<{ id: string, name: string }[]>([])
+const isRegisterPass = ref(false);
+const isRegisterGoogle = ref(false);
 
-const fetchBusinessTypeList = async () => {
-  try {
-    // const response = await UserService.getAllBusinessType()
-    // businessTypeList.value = response.data
-  } catch (error) {
-    console.error('Lỗi khi lấy dữ liệu lĩnh vực:', error)
-  }
-};
-
-interface formRegister {
-  fullName: string
-  email: string
-  businessName: string
-  businessTypeId: null
-  password: string
-  rePassword: string
-}
-
-interface errors {
-  fullName: string
-  email: string
-  businessName: string
-  businessTypeId: string | null
-  password: string
-  rePassword: string
-}
-
-const formRegister = reactive<formRegister>({
-  fullName: '',
-  email: '',
-  businessName: '',
-  businessTypeId: null,
-  password: '',
-  rePassword: ''
-});
-
-const errors = reactive<errors>({
-  fullName: '',
-  email: '',
-  businessName: '',
-  businessTypeId: '' as string | null,
-  password: '',
-  rePassword: ''
-});
-
-const onFinish = async () => {
-  if (validateForm()) {
-    try {
-      const newUser = {
-        fullName: formRegister.fullName,
-        email: formRegister.email,
-        businessName: formRegister.businessName,
-        businessTypeId: formRegister.businessTypeId,
-        password: formRegister.password
-      }
-      // await UserService.postNewUser(newUser)
-      toast.success('Đăng ký thành công!\nChào mừng bạn đến với Metu')
-      setTimeout(() => {
-        router.push('/instroduce')
-      }, 3000)
-    } catch (error) {
-      toast.error('Lỗi khi đăng ký thành viên mới!' + error)
-    }
-  }
-};
-
-const validateForm = () => {
-  let check = true
-
-  if (!formRegister.fullName) {
-    errors.fullName = 'Họ và tên không được để trống!'
-    check = false
-  } else {
-    errors.fullName = ''
-  }
-
-  const validDomains = ['@gmail.com', '@fpt.edu.vn']
-  if (!formRegister.email) {
-    errors.email = 'Email không được để trống!'
-    check = false
-  } else if (!validDomains.some(domain => formRegister.email.endsWith(domain))) {
-    errors.email = 'Sai định dạng Email!'
-    check = false
-  } else {
-    errors.email = ''
-  }
-
-  if (!formRegister.businessName) {
-    errors.businessName = 'Tên công ty/doanh nghiệp không được để trống!'
-    check = false
-  } else {
-    errors.businessName = ''
-  }
-
-  if (!formRegister.businessTypeId) {
-    errors.businessTypeId = 'Lĩnh vực không được để trống!'
-    check = false
-  } else {
-    errors.businessTypeId = ''
-  }
-
-  if (!formRegister.password) {
-    errors.password = 'Mật khẩu không được để trống!'
-    check = false
-  } else {
-    errors.password = ''
-  }
-
-  if (!formRegister.rePassword) {
-    errors.rePassword = 'Xác nhận mật khẩu không được để trống!'
-    check = false
-  } else if (formRegister.password !== formRegister.rePassword) {
-    errors.rePassword = 'Mật khẩu và xác nhận mật khẩu không khớp!'
-    check = false
-  } else {
-    errors.rePassword = ''
-  }
-
-  return check
-};
-
-onMounted(() => {
-  fetchBusinessTypeList()
+const modelRef = reactive<RegisterForm>({
+  fullName: "",
+  email: "",
+  businessName: "",
+  businessType: null,
+  password: "",
+  rePassword: "",
 })
+
+const rulesRef = reactive({
+  fullName: [
+    {required: true, message: "Vui lòng nhập họ tên", trigger: "blur"},
+    {min: 2, message: "Họ tên phải có ít nhất 2 ký tự", trigger: "blur"},
+    {max: 50, message: "Họ tên phải ít hơn 50 ký tự", trigger: "blur"},
+  ],
+  email: [
+    {required: true, message: "Vui lòng nhập email", trigger: "blur"},
+    {type: "email", message: "Email không hợp lệ", trigger: "blur"},
+  ],
+  businessName: [
+    {required: true, message: "Vui lòng nhập tên công ty", trigger: "blur"},
+    {min: 2, message: "Tên công ty phải có ít nhất 2 ký tự", trigger: "blur"},
+    {max: 50, message: "Tên công ty phải ít hơn 50 ký tự", trigger: "blur"},
+  ],
+  businessType: [
+    {required: true, message: "Vui lòng chọn loại công ty", trigger: "change"},
+  ],
+  password: [
+    {required: true, message: "Vui lòng nhập mật khẩu", trigger: "blur"},
+    {min: 8, message: "Mật khẩu phải có ít nhất 8 ký tự", trigger: "blur"},
+    {max: 50, message: "Mật khẩu phải ít hơn 50 ký tự", trigger: "blur"},
+  ],
+  rePassword: [
+    {required: true, message: "Vui lòng nhập lại mật khẩu", trigger: "blur"},
+    {min: 8, message: "Mật khẩu phải có ít nhất 8 ký tự", trigger: "blur"},
+    {max: 50, message: "Mật khẩu phải ít hơn 50 ký tự", trigger: ""}
+  ]
+})
+
+const {validate, validateInfos} = Form.useForm(
+    modelRef,
+    rulesRef
+);
+
+const formFields = computed(() => [
+  {
+    label: "Họ và tên",
+    name: "fullName",
+    component: "a-input",
+    props: {placeholder: "Họ và tên"},
+  },
+  {
+    label: "Email",
+    name: "email",
+    component: "a-input",
+    props: {placeholder: "Email / Tên đăng nhập"},
+  },
+  {
+    label: "Tên doanh nghiệp",
+    name: "businessName",
+    component: "a-input",
+    props: {placeholder: "Tên doanh nghiệp"},
+  },
+  {
+    label: "Hình thức doanh nghiệp",
+    name: "businessType",
+    component: "a-select",
+    props: {placeholder: "Hình thức doanh nghiệp"},
+  },
+  {
+    label: "Password",
+    name: "password",
+    component: "a-input-password",
+    props: {placeholder: "Mật khẩu"},
+  },
+  {
+    label: "RePassword",
+    name: "rePassword",
+    component: "a-input-password",
+    props: {placeholder: "Xác nhận mật khẩu"},
+  },
+]);
+
+const {data: businessTypes} = useGetBusinessType({
+  refetchOnWindowFocus: false,
+  placeholderData: keepPreviousData,
+});
+
+
+const businessTypesData = computed(() => {
+  return businessTypes?.value?.data?.map((item: BusinessType) => ({
+    value: item.id,
+    label: item.name,
+  })) || [];
+});
+
+watch(
+    () => businessTypesData.value,
+    (newBusinessTypes) => {
+      if (newBusinessTypes && newBusinessTypes.length > 0 && !modelRef.businessType) {
+        modelRef.businessType = newBusinessTypes[0].value;
+      }
+    },
+    {immediate: true}
+);
+
+let buttonClicked = ref<Boolean>(false);
+
+const {data: state} = useRegister(modelRef, {
+  refetchOnWindowFocus: false,
+  placeholderData: keepPreviousData,
+  enabled: computed(() => buttonClicked.value)
+});
+
+watch(
+    () => state.value,
+    (result) => {
+      if (result?.data) {
+        window.location.href = `${URL_FRONTEND}?state=${result.data}`;
+      } else {
+        buttonClicked.value = false;
+        toast.error(
+            result?.response?.data?.message || ERROR_MESSAGE.SOMETHING_WENT_WRONG
+        );
+      }
+    }
+);
+
+const handleSubmitRegister = async () => {
+  try {
+    await validate();
+    buttonClicked.value = true;
+  } catch (error: any) {
+    console.error("🚀 ~ onFinish register ~ error:", error);
+    if (error.errorFields) {
+      return;
+    }
+    toast.error(
+        error?.response?.data?.message || ERROR_MESSAGE.SOMETHING_WENT_WRONG
+    );
+  }
+};
+
+const handleRegisterGoogle = () => {
+  console.log(
+      "URL_OAUTH2_GOOGLE + URL_FRONTEND",
+      URL_OAUTH2_GOOGLE + URL_FRONTEND
+  );
+  window.location.href = URL_OAUTH2_GOOGLE + URL_FRONTEND;
+};
+
 </script>
-
-<style scoped>
-.image-col {
-  background-image: url('https://admin.metu.vn/assets_metu/media/images/bg-10.png');
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
-}
-
-.custom-input {
-  width: 400px;
-  height: 45px;
-  font-size: 18px;
-}
-
-.custom-button {
-  width: 400px;
-  height: 45px;
-  font-size: 18px;
-  padding: 0;
-  margin-top: 30px;
-  background-color: #6B59AF;
-  color: #FFF;
-}
-
-.custom-button:hover {
-  opacity: 0.95;
-  color: #FFF;
-  border: none;
-}
-</style>

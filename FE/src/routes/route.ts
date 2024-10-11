@@ -76,7 +76,44 @@ const routes: Array<RouteRecordRaw> = [
                     requiresAuth: true
                 },
             },
+            {
+                path: ROUTES_CONSTANTS.MANAGER.children.MENU.path,
+                name: ROUTES_CONSTANTS.MANAGER.children.MENU.name,
+                component: import('@/views/manager/menu/Menu.vue'),
+                meta: {
+                    requiresRole: ROLES.MANAGER,
+                    requiresAuth: true
+                },
+            },
+            {
+                path: ROUTES_CONSTANTS.MANAGER.children.CREATE_MENU.path,
+                name: ROUTES_CONSTANTS.MANAGER.children.CREATE_MENU.name,
+                component: import('@/views/manager/menu/CreateMenu.vue'),
+                meta: {
+                    requiresRole: ROLES.MANAGER,
+                    requiresAuth: true
+                },
+            },
+            {
+                path: ROUTES_CONSTANTS.MANAGER.children.WIDGET.path,
+                name: ROUTES_CONSTANTS.MANAGER.children.WIDGET.name,
+                component: import('@/views/manager/menu/CreateWidgetMenu.vue'),
+                meta: {
+                    requiresRole: ROLES.MANAGER,
+                    requiresAuth: true
+                },
+            },
         ],
+    },
+    {
+        path: ROUTES_CONSTANTS.MANAGER.children.COMPUTER_SCREEN.path,
+        name: ROUTES_CONSTANTS.MANAGER.children.COMPUTER_SCREEN.name,
+        component: () => import("@/views/manager/menu/ComputerScreen.vue"),
+    },
+    {
+        path: ROUTES_CONSTANTS.MANAGER.children.PHONE_SCREEN.path,
+        name: ROUTES_CONSTANTS.MANAGER.children.PHONE_SCREEN.name,
+        component: () => import("@/views/manager/menu/PhoneScreen.vue"),
     },
     {
         path: ROUTES_CONSTANTS.EMPLOYEE.path,

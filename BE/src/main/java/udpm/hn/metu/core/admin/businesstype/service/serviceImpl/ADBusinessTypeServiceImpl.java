@@ -8,7 +8,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import udpm.hn.metu.core.admin.businesstype.model.request.ADBusinessTypeCreateRequest;
 import udpm.hn.metu.core.admin.businesstype.model.request.ADBusinessTypeRequest;
-import udpm.hn.metu.core.admin.businesstype.model.response.ADBusinessTypeResponse;
 import udpm.hn.metu.core.admin.businesstype.repository.ADBusinessTypeRepository;
 import udpm.hn.metu.core.admin.businesstype.service.ADBusinessTypeService;
 import udpm.hn.metu.core.common.base.PageableObject;
@@ -49,7 +48,7 @@ public class ADBusinessTypeServiceImpl implements ADBusinessTypeService {
         String code = String.format("TL%04d", number);
         BusinessType businessType = new BusinessType();
         businessType.setCode(code);
-        businessType.setName(request.getBusinessTypeName());
+        businessType.setName(request.getName());
         businessType.setDeleted(false);
         businessType.setDescription(request.getDescription());
         BusinessType adBusinessTypeRepository = businessTypeRepository.save(businessType);
@@ -60,7 +59,7 @@ public class ADBusinessTypeServiceImpl implements ADBusinessTypeService {
     public ResponseObject<?> updateBusinessType(String id, ADBusinessTypeCreateRequest request) {
         Optional<BusinessType> businessType = businessTypeRepository.findById(id)
                 .map(businessType1 -> {
-                    businessType1.setName(request.getBusinessTypeName());
+                    businessType1.setName(request.getName());
                     businessType1.setDescription(request.getDescription());
                     return businessTypeRepository.save(businessType1);
                 });

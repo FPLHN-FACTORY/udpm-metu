@@ -11,7 +11,7 @@ public class ADBusinessTypeCreateRequest {
 
     @NotEmpty
     @Size(min = 5 , max = 250)
-    private String businessTypeName;
+    private String name;
 
     @Size(max = 500)
     private String description;

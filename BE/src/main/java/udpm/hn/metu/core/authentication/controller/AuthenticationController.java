@@ -46,7 +46,7 @@ public class AuthenticationController {
         return Helper.createResponseEntity(authenticationService.register(request));
     }
 
-    @GetMapping("/get-business-type")
+    @GetMapping("/business-type")
     public ResponseEntity<?> getListBusiness() {
         return Helper.createResponseEntity(authenticationService.getBusinessType());
     }

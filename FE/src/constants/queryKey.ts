@@ -4,19 +4,24 @@ export const queryKey = {
   },
   admin: {
     businessType: {
-        businesstypeList: "adBtBusinessListKey"
+      businesstypeList: "adBtBusinessListKey"
     },
-    something: {
-
+    common: {},
+    authentication: {
+      login: "loginKey",
+      logout: "logoutKey",
+      register: "registerKey",
+      getBusinessType: "authGetBusinessType",
     },
-  },
-  manager: {
-    another: {
-
+    admin: {
+      another: {},
+      something: {},
     },
-    something: {
-
+    manager: {
+      another: {},
+      widget: {
+        WidgetGroupByCategory: "mWWidgetGroupByCategory"
+      },
     },
-  },
-
+  }
 };
