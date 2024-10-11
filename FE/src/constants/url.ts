@@ -21,7 +21,6 @@ export const PREFIX_API_COMMON = `${API_URL}/common` as string;
 // AUTH API
 export const PREFIX_API_AUTH = `${API_URL}/auth` as string;
 
-<<<<<<< HEAD
 export const PREFIX_API_LOGIN = (PREFIX_API_AUTH + `/login`) as string;
 export const PREFIX_API_LOGOUT = (PREFIX_API_AUTH + `/logout`) as string;
 export const PREFIX_API_REGISTER = (PREFIX_API_AUTH + `/register`) as string;
@@ -31,15 +30,6 @@ export const PREFIX_API_AUTH_BUSINESS_TYPE = (PREFIX_API_AUTH +
 export const PREFIX_API_FORGOT_PASSWORD = (PREFIX_API_AUTH +
   `/forgot-password`) as string;
 export const PREFIX_API_REFRESH = (PREFIX_API_AUTH + `/refresh`) as string;
-=======
-export const PREFIX_API_LOGIN = PREFIX_API_AUTH + `/login` as string;
-export const PREFIX_API_LOGOUT = PREFIX_API_AUTH + `/logout` as string;
-export const PREFIX_API_REGISTER = PREFIX_API_AUTH + `/register` as string;
-export const PREFIX_API_AUTH_BUSINESS_TYPE = PREFIX_API_AUTH + `/business-type` as string;
-
-export const PREFIX_API_FORGOT_PASSWORD = PREFIX_API_AUTH + `/forgot-password` as string;
-export const PREFIX_API_REFRESH = PREFIX_API_AUTH + `/refresh` as string;
->>>>>>> dev
 
 // MANAGER API
 export const PREFIX_API_MANAGER = `${API_URL}/manager` as string;
@@ -59,12 +49,7 @@ export const PREFIX_API_ADMIN_BUSINESS =
 // MANAGEMENT API
 export const PREFIX_API_MANAGEMENT = `${API_URL}/manager` as string;
 
-<<<<<<< HEAD
 export const PREFIX_API_CREATE_WIDGET = (PREFIX_API_MANAGEMENT +
   `/create-widget`) as string;
 export const LIST_WIDGET_GROUP_BY_CATEGORY = (PREFIX_API_CREATE_WIDGET +
   `/widget`) as string;
-=======
-export const PREFIX_API_CREATE_WIDGET = PREFIX_API_MANAGEMENT + `/create-widget` as string;
-export const LIST_WIDGET_GROUP_BY_CATEGORY = PREFIX_API_CREATE_WIDGET + `/widget` as string;
->>>>>>> dev

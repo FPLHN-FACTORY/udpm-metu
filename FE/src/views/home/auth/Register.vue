@@ -141,13 +141,6 @@ const formFields = computed(() => [
     name: "fullName",
     component: "a-input",
 
-    props: { placeholder: "Họ và tên" },
-  },
-  {
-    label: "Email",
-    name: "email",
-    component: "a-input",
-
     props: { placeholder: "Email / Tên đăng nhập" },
   },
   {
@@ -155,25 +148,11 @@ const formFields = computed(() => [
     name: "businessName",
     component: "a-input",
 
-    props: { placeholder: "Tên doanh nghiệp" },
-  },
-  {
-    label: "Hình thức doanh nghiệp",
-    name: "businessType",
-    component: "a-select",
-
     props: { placeholder: "Hình thức doanh nghiệp" },
   },
   {
     label: "Password",
     name: "password",
-    component: "a-input-password",
-
-    props: { placeholder: "Mật khẩu" },
-  },
-  {
-    label: "RePassword",
-    name: "rePassword",
     component: "a-input-password",
 
     props: { placeholder: "Xác nhận mật khẩu" },
