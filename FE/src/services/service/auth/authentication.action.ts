@@ -14,7 +14,7 @@ export const useLogin = (
     Error
 > => {
     return useQuery({
-        queryKey: [queryKey.authentication.login],
+        queryKey: [queryKey.admin.authentication.login],
         queryFn: () => login(params),
         ...options
     });
@@ -27,7 +27,7 @@ export const useGetBusinessType = (
     Error
 > => {
     return useQuery({
-        queryKey: [queryKey.authentication.getBusinessType],
+        queryKey: [queryKey.admin.authentication.getBusinessType],
         queryFn: () => getBusinessType(),
         ...options
     });
@@ -41,7 +41,7 @@ export const useRegister = (
     Error
 > => {
     return useQuery({
-        queryKey: [queryKey.authentication.register],
+        queryKey: [queryKey.admin.authentication.register],
         queryFn: () => register(params),
         ...options
     });
