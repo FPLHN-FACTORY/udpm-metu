@@ -3,8 +3,8 @@ export const queryKey = {
 
   },
   admin: {
-    another: {
-
+    businessType: {
+        businesstypeList: "adBtBusinessListKey"
     },
     something: {
 
