@@ -1,6 +1,8 @@
 package udpm.hn.metu.core.admin.planorder.model.response;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import udpm.hn.metu.core.common.base.IsIdentify;
 import udpm.hn.metu.entity.Business;
@@ -12,6 +14,8 @@ import java.util.List;
 
 @Setter
 @Getter
+@AllArgsConstructor
+@NoArgsConstructor
 public class PlanOrderResponse {
 
     private String email;               // Email
@@ -26,8 +30,8 @@ public class PlanOrderResponse {
 
     private Status status;             // Trạng thái
 
-    private List<Business> businesses;
+    private String businessName;
 
-    private List<Plan> plans;
+    private String planName;
 
 }
