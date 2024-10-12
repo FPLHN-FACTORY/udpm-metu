@@ -30,7 +30,7 @@
     </a-layout-sider>
 
     <a-layout>
-      <a-layout-header class="pl-3 mt-1" style="background-color: white">
+      <a-layout-header class="pl-3 mt-1" >
         <div class="user-info flex items-center justify-between">
           <div class="cursor-pointer" @click="collapsed = !collapsed">
             <component
@@ -79,8 +79,8 @@
 import {computed, ref} from 'vue';
 import {useRouter} from 'vue-router';
 import {MenuFoldOutlined, MenuUnfoldOutlined, UserOutlined,} from '@ant-design/icons-vue';
-import {ROUTES_CONSTANTS} from "@/constants/path.ts";
-import {useAuthStore} from "@/stores/auth.ts";
+import {ROUTES_CONSTANTS} from "@/constants/path";
+import {useAuthStore} from "@/stores/auth";
 
 const auth = useAuthStore();
 
@@ -102,7 +102,7 @@ const menuItems = ref([
     label: 'Thống kê',
     icon: UserOutlined,
     children: [
-      {key: '2', label: 'Chi tiết tương tác', path: '/auth/ statistical-interaction'},
+      {key: '2', label: 'Chi tiết tương tác', path: '/auth/statistical-interaction'},
       {key: '3', label: 'Theo menu', path: '/auth/statistical-menu'},
       {key: '4', label: 'Theo nút', path: '/auth/statistical-button'},
     ],
@@ -113,6 +113,7 @@ const menuItems = ref([
     icon: UserOutlined,
     path: '/auth/menu',
   },
+  {key: '6', icon: UserOutlined, label: 'Lịch sử thanh toán', path: ROUTES_CONSTANTS.ADMIN.children.PLAN_ORDER},
 
 ]);
 

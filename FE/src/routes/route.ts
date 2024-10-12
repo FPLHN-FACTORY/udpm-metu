@@ -58,6 +58,15 @@ const routes: Array<RouteRecordRaw> = [
                     requiresAuth: true
                 },
             },
+            {
+                path: ROUTES_CONSTANTS.ADMIN.children.PLAN_ORDER.path,
+                name: ROUTES_CONSTANTS.ADMIN.children.PLAN_ORDER.name,
+                component: import('@/views/admin/plan/PlanOrder.vue'),
+                meta: {
+                    requiresRole: ROLES.ADMIN,
+                    requiresAuth: true
+                },
+            },
         ],
     },
     {

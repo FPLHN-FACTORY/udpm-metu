@@ -1,20 +1,22 @@
 export const queryKey = {
   common: {},
-
   authentication: {
-    login: "loginKey",
-    logout: "logoutKey",
-    register: "registerKey",
-    getBusinessType: "authGetBusinessType",
+      login: "loginKey",
+      logout: "logoutKey",
+      register: "registerKey",
+      getBusinessType: "authGetBusinessType",
   },
-
   admin: {
-    businessType: {
-      businesstypeList: "adBtBusinessListKey"
-    },
-    something: {},
+      another: {},
+      something: {},
+      planorder: {
+        PlanOrder: "adPlanOrder"
+      },
+      businessType: {
+        businesstypeList: "adBtBusinessListKey"
+      }
   },
-
+  
   manager: {
     another: {},
     widget: {
@@ -23,3 +25,4 @@ export const queryKey = {
   },
 
 };
+
