@@ -1,104 +1,60 @@
 <template>
-  <div class="h-full">
-    <a-input-search
-      v-model="searchQuery"
-      placeholder="Tìm kiếm..."
-      @input="onSearch"
-      class="mb-4"
-    />
-    <MetuTable
-      :columns="columns"
-      :dataSource="filteredPlanOrderData"
-      :loading="isLoading"
-      :paginationParams="paginationParams"
-      :totalPages="totalPages"
-      @tableChange="handleTableChange"
-      @update:paginationParams="updatePaginationParams"
-    />
+  <div class="mt-4">
+    <div class="flex justify-between items-center">
+      <h2 class="p-4 flex items-center text-primary text-3xl font-semibold">
+        <v-icon name="hi-office-building" scale="2" />
+        <span class="m-2 text-3xl">Lịch sử thanh toán</span>
+      </h2>
+    </div>
+    <plan-order-filter @filter="handleFilter" />
+    <plan-order-table :data-source="planOrderData"
+      :total-pages="TotalPages"
+      :pagination-params="planOrderParams" @update:pagination-params="handleChangePagination" />
   </div>
 </template>
 
 <script setup lang="ts">
-import MetuTable from "@/components/forms/MetuTable.vue";
-import { ref, computed, watch } from "vue";
-import { useGetListPlanOrder } from "@/services/service/plan/planorder/planorder.action";
+import { computed, ref, onMounted } from 'vue';
+import PlanOrderFilter from '@/views/admin/plan/PlanOrderFilter.vue';
+import PlanOrderTable from '@/views/admin/plan/PlanOrderTable.vue';
+import { useGetListPlanOrder } from '@/services/service/plan/planorder/planorder.action';
+import { ParamsGetPlanOrder } from '@/services/api/plan/planorder/planorder.api';
+import { keepPreviousData } from '@tanstack/vue-query';
 
-// Trạng thái tìm kiếm
-const searchQuery = ref("");
-const paginationParams = ref({ page: 1, size: 10 });
+const planOrderParams = ref<ParamsGetPlanOrder>({
+  page: 1,
+  size: 5
+})
 
-// Gọi hook để lấy danh sách đơn đặt kế hoạch từ API và quản lý trạng thái tải
-const { data: listPlanOrders, isLoading, refetch } = useGetListPlanOrder({
-  refetchOnWindowFocus: false, // Không tự động gọi lại API khi tab được kích hoạt
+const { data: listPlanOrder } = useGetListPlanOrder(planOrderParams, {
+  refetchOnWindowFocus: false,
+  placeholderData: keepPreviousData,
 });
 
-// Dữ liệu đã lọc theo tìm kiếm
-const filteredPlanOrderData = computed(() => {
-  const planOrders = listPlanOrders?.value?.data || [];
-  return planOrders; // Chúng ta không cần lọc ở đây mà sẽ gọi API với query
+const handleChangePagination = (newParams: ParamsGetPlanOrder) => {
+  planOrderParams.value = { ...planOrderParams.value, ...newParams }
+}
+const handleFilter = (newParams: ParamsGetPlanOrder) => {
+  planOrderParams.value = { ...planOrderParams.value, ...newParams }
+}
+
+const planOrderData = computed(() => {
+  return listPlanOrder?.value?.data?.data.map(item => ({
+    email: item[0],
+    createAt: item[1],
+    expirationDate: item[2],
+    price: item[3],
+    quantity: item[4],
+    status: item[5],
+    businessName: item[6],
+    packageType: item[7]
+  })) || [];
 });
 
-// Tính toán tổng số trang
-const totalPages = computed(() => 
-  Math.ceil(listPlanOrders?.value?.data?.length / paginationParams.value.size)
-);
+const TotalPages = computed(() => listPlanOrder?.value?.data?.totalPages || 0)
 
-// Cập nhật cột để bao gồm STT
-const columns = [
-  { title: "STT", dataIndex: "stt", key: "stt" }, // Thêm cột STT
-  { title: "Tên doanh nghiệp", dataIndex: ["businesses", 0, "name"], key: "businessName" },
-  { title: "Email", dataIndex: "email", key: "email" },
-  {
-    title: "Ngày tạo",
-    dataIndex: "createAt",
-    key: "createAt",
-    render: (text) => new Date(text * 1000).toLocaleString(), // Định dạng lại ngày
-  },
-  {
-    title: "Ngày hết hạn",
-    dataIndex: "expirationDate",
-    key: "expirationDate",
-    render: (text) => new Date(text * 1000).toLocaleString(), // Định dạng lại ngày
-  },
-  { title: "Giá", dataIndex: "price", key: "price", render: (text) => `$${text.toFixed(2)}` },
-  { title: "Số lượng", dataIndex: "quantity", key: "quantity" },
-  { title: "Tổng tiền", dataIndex: "totalPrice", key: "totalPrice" },
-  { title: "Trạng thái", dataIndex: "status", key: "status" },
-  { title: "Tên Plan", dataIndex: ["plans", 0, "name"], key: "planName" },
-];
-
-// Hàm xử lý khi bảng thay đổi
-const handleTableChange = (pagination, filters, sorter) => {
-  console.log("Table changed:", pagination, filters, sorter);
-  paginationParams.value = {
-    page: pagination.current,
-    size: pagination.pageSize,
-  };
-  refetch(); // Gọi lại API với tham số phân trang mới
-};
-
-// Cập nhật tham số phân trang
-const updatePaginationParams = (newParams) => {
-  paginationParams.value = newParams;
-  refetch(); // Gọi lại API với tham số phân trang mới
-};
-
-// // Hàm xử lý tìm kiếm
-// const onSearch = () => {
-//   refetch({ 
-//     email: searchQuery.value, // Truyền lại tham số tìm kiếm email
-//     page: paginationParams.value.page, // Truyền lại trang hiện tại
-//     size: paginationParams.value.size // Truyền lại kích thước trang
-//   });
-// };
-
-// // Theo dõi sự thay đổi của searchQuery để gọi lại API
-// watch(searchQuery, (newValue) => {
-//   refetch({ 
-//     email: newValue, // Truyền lại tham số tìm kiếm email mới
-//     page: paginationParams.value.page, // Truyền lại trang hiện tại
-//     size: paginationParams.value.size // Truyền lại kích thước trang
-//   });
-// });
+onMounted(() => {
+  console.log('Dữ liệu từ API:', handleFilter);
+});
 
 </script>
