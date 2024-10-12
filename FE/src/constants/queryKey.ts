@@ -16,11 +16,13 @@ export const queryKey = {
         businesstypeList: "adBtBusinessListKey"
       }
   },
+  
   manager: {
-      another: {},
-      widget: {
-          WidgetGroupByCategory: "mWWidgetGroupByCategory"
-      },
+    another: {},
+    widget: {
+      WidgetGroupByCategory: "mWWidgetGroupByCategory"
+    },
   },
 
 };
+
