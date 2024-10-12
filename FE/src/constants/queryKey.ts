@@ -11,6 +11,9 @@ export const queryKey = {
       something: {},
       planorder: {
         PlanOrder: "adPlanOrder"
+      },
+      businessType: {
+        businesstypeList: "adBtBusinessListKey"
       }
   },
   manager: {
