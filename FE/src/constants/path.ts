@@ -1,20 +1,21 @@
 export const ROUTES_CONSTANTS = {
-  AUTHENTICATION: {
-    path: "/auth",
-    name: "authentication",
-    children: {
-      LOGIN: {
-        path: "login",
-        name: "login",
-      },
-      REGISTER: {
-        path: "register",
-        name: "register",
-      },
-      FORGOT_PASSWORD: {
-        path: "forgot-password",
-        name: "forgot-password",
-      },
+    AUTHENTICATION: {
+        path: "/auth",
+        name: "authentication",
+        children: {
+            LOGIN: {
+                path: "login",
+                name: "login",
+            },
+            REGISTER: {
+                path: "register",
+                name: "register",
+            },
+            FORGOT_PASSWORD: {
+                path: "forgot-password",
+                name: "forgot-password",
+            },
+        }
     },
     ADMIN: {
         path: "/admin",
@@ -69,27 +70,27 @@ export const ROUTES_CONSTANTS = {
             }
         },
     },
-  },
-  EMPLOYEE: {
-    path: "/employee",
-    name: "employee",
-    children: {
-      ANOTHER: {
-        path: "another",
-        name: "another",
-      },
-      SOMETHING: {
-        path: "something",
-        name: "something",
-      },
+
+    EMPLOYEE: {
+        path: "/employee",
+        name: "employee",
+        children: {
+            ANOTHER: {
+                path: "another",
+                name: "another",
+            },
+            SOMETHING: {
+                path: "something",
+                name: "something",
+            },
+        },
     },
-  },
-  NOT_FOUND: {
-    path: "/:pathMatch(.*)*",
-    name: "NotFound",
-  },
-  REDIRECT: {
-    path: "/redirect",
-    name: "redirect",
-  },
+    NOT_FOUND: {
+        path: "/:pathMatch(.*)*",
+        name: "NotFound",
+    },
+    REDIRECT: {
+        path: "/redirect",
+        name: "redirect",
+    },
 };
