@@ -63,4 +63,5 @@ public class Widget extends AuditEntity implements Serializable {
         this.iconUrl = request.getIconUrl();
         this.type = WidgetType.valueOf(request.getType());
     }
+
 }

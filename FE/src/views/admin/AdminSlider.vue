@@ -44,16 +44,16 @@
         <div class="user-info flex items-center justify-between">
           <div class="cursor-pointer" @click="collapsed = !collapsed">
             <component
-                :is="collapsed ? MenuUnfoldOutlined : MenuFoldOutlined"
-                class="text-xl"
+              :is="collapsed ? MenuUnfoldOutlined : MenuFoldOutlined"
+              class="text-xl"
             />
           </div>
           <a-dropdown placement="bottomRight" arrow>
             <div class="flex items-center cursor-pointer">
               <a-avatar
-                  v-if="userInfo?.pictureUrl"
-                  :src="userInfo?.pictureUrl"
-                  size="large"
+                v-if="userInfo?.pictureUrl"
+                :src="userInfo?.pictureUrl"
+                size="large"
               >
                 {{ userInfo?.fullName[0] }}
               </a-avatar>
@@ -73,7 +73,7 @@
       </a-layout-header>
       <a-layout-content class="mx-4">
         <div class="min-h-[calc(100vh-9.5rem)] bg-white">
-          <router-view/>
+          <router-view />
         </div>
       </a-layout-content>
       <a-layout-footer class="text-center">
@@ -84,7 +84,6 @@
 </template>
 
 <script lang="ts" setup>
-
 import {computed, ref} from "vue";
 import {useRouter} from "vue-router";
 import {
@@ -94,6 +93,7 @@ import {
 } from "@ant-design/icons-vue";
 import {ROUTES_CONSTANTS} from "@/constants/path.ts";
 import {useAuthStore} from "@/stores/auth.ts";
+
 
 
 const auth = useAuthStore();
