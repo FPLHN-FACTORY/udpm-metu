@@ -1,36 +1,36 @@
 <template>
   <a-layout>
     <a-layout-sider
-      theme="light"
-      :style="{ width: '300px' }"
-      v-model:collapsed="collapsed"
-      :trigger="null"
-      collapsible
+        theme="light"
+        :style="{ width: '300px' }"
+        v-model:collapsed="collapsed"
+        :trigger="null"
+        collapsible
     >
       <div class="logo" style="width: 100%; height: 70px">LOGO</div>
       <a-menu v-model:selectedKeys="selectedKeys" theme="light" mode="inline">
         <template v-for="item in menuItems">
           <a-menu-item
-            :key="item.key"
-            v-if="!item.children"
-            @click="handleMenuClick(item.key)"
+              :key="item.key"
+              v-if="!item.children"
+              @click="handleMenuClick(item.key)"
           >
-            <component :is="item.icon" />
+            <component :is="item.icon"/>
             <span>{{ item.label }}</span>
           </a-menu-item>
 
           <a-sub-menu v-else>
             <template #title>
               <span>
-                <component :is="item.icon" />
+                <component :is="item.icon"/>
                 <span>{{ item.label }}</span>
               </span>
             </template>
 
             <a-menu-item
-              v-for="child in item.children"
-              :key="child.key"
-              @click="handleMenuClick(child.key)"
+                v-for="child in item.children"
+                :key="child.key"
+                @click="handleMenuClick(child.key)"
             >
               {{ child.label }}
             </a-menu-item>
@@ -40,20 +40,20 @@
     </a-layout-sider>
 
     <a-layout>
-      <a-layout-header class="pl-3 mt-1" >
+      <a-layout-header class="pl-3 mt-1">
         <div class="user-info flex items-center justify-between">
           <div class="cursor-pointer" @click="collapsed = !collapsed">
             <component
-              :is="collapsed ? MenuUnfoldOutlined : MenuFoldOutlined"
-              class="text-xl"
+                :is="collapsed ? MenuUnfoldOutlined : MenuFoldOutlined"
+                class="text-xl"
             />
           </div>
           <a-dropdown placement="bottomRight" arrow>
             <div class="flex items-center cursor-pointer">
               <a-avatar
-                v-if="userInfo?.pictureUrl"
-                :src="userInfo?.pictureUrl"
-                size="large"
+                  v-if="userInfo?.pictureUrl"
+                  :src="userInfo?.pictureUrl"
+                  size="large"
               >
                 {{ userInfo?.fullName[0] }}
               </a-avatar>
@@ -73,7 +73,7 @@
       </a-layout-header>
       <a-layout-content class="mx-4">
         <div class="min-h-[calc(100vh-9.5rem)] bg-white">
-          <router-view />
+          <router-view/>
         </div>
       </a-layout-content>
       <a-layout-footer class="text-center">
@@ -85,15 +85,15 @@
 
 <script lang="ts" setup>
 
-import { computed, ref } from "vue";
-import { useRouter } from "vue-router";
+import {computed, ref} from "vue";
+import {useRouter} from "vue-router";
 import {
   MenuFoldOutlined,
   MenuUnfoldOutlined,
   UserOutlined,
 } from "@ant-design/icons-vue";
-import { ROUTES_CONSTANTS } from "@/constants/path.ts";
-import { useAuthStore } from "@/stores/auth.ts";
+import {ROUTES_CONSTANTS} from "@/constants/path.ts";
+import {useAuthStore} from "@/stores/auth.ts";
 
 
 const auth = useAuthStore();
@@ -141,7 +141,7 @@ const menuItems = ref([
     key: "6",
     label: "Quản lý Widget",
     icon: UserOutlined,
-    path: "/admin/widget-manage",
+    path: ROUTES_CONSTANTS.ADMIN.children.WIDGET,
   },
   {key: '7', icon: UserOutlined, label: 'Lịch sử thanh toán', path: ROUTES_CONSTANTS.ADMIN.children.PLAN_ORDER},
 ]);
@@ -149,9 +149,9 @@ const menuItems = ref([
 const handleMenuClick = (key: string) => {
   selectedKeys.value = [key];
   const item = menuItems.value.find(
-    (menuItem) =>
-      menuItem.key === key ||
-      menuItem.children?.some((child) => child.key === key)
+      (menuItem) =>
+          menuItem.key === key ||
+          menuItem.children?.some((child) => child.key === key)
   );
   if (item) {
     const target = item.children?.find((child) => child.key === key) || item;

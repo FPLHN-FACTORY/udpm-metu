@@ -21,6 +21,9 @@ public final class MappingConstant {
 
     public static final String API_ADMIN_BUSINESS_TYPE = API_ADMIN_PREFIX + "/business-type"; // example admin
 
+    public static final String API_ADMIN_CATEGORY = API_ADMIN_PREFIX + "/categories";
+    public static final String API_ADMIN_WIDGET = API_ADMIN_PREFIX + "/widget";
+
     /* MANAGER */
     public static final String API_MANAGER_FEATURE = API_MANAGER_PREFIX + "/feature"; // example admin
     public static final String API_MANAGER_CREATE_WIDGET = API_MANAGER_PREFIX + "/create-widget"; // example admin

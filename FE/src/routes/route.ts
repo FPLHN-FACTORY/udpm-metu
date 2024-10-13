@@ -68,9 +68,9 @@ const routes: Array<RouteRecordRaw> = [
                 },
             },
             {
-                path: ROUTES_CONSTANTS.ADMIN.children.WIDGET_MANAGE.path,
-                name: ROUTES_CONSTANTS.ADMIN.children.WIDGET_MANAGE.name,
-                component: import("@/views/admin/widget_manager/Widget.vue"),
+                path: ROUTES_CONSTANTS.ADMIN.children.WIDGET.path,
+                name: ROUTES_CONSTANTS.ADMIN.children.WIDGET.name,
+                component: import("@/views/admin/widget_admin/AdWidget.vue"),
                 meta: {
                     requiresRole: ROLES.ADMIN,
                     requiresAuth: true,
