@@ -84,21 +84,8 @@ import {useAuthStore} from "@/stores/auth.ts";
 import route from "@/routes/route.ts";
 
 const auth = useAuthStore();
-const userInfo = computed(() => auth.user);
-// if(userInfo){
-//   const rolesCodes = userInfo?.value?.rolesCodes;
-//   if (rolesCodes) {
-//     if (!rolesCodes.includes(ROLES.ADMIN)) {
-//       route.push(ROUTES_CONSTANTS.AUTHENTICATION.children.LOGIN);
-//     }
-//   } else {
-//     route.push(ROUTES_CONSTANTS.AUTHENTICATION.children.LOGIN);
-//     return;
-//   }
-// }elsE{
-//
-// }
 
+const userInfo = computed(() => auth.user);
 const handleLogout = () => {
   auth.logout();
   route.push(ROUTES_CONSTANTS.AUTHENTICATION.children.LOGIN);
@@ -116,7 +103,7 @@ const menuItems = ref([
     label: 'Thống kê',
     icon: UserOutlined,
     children: [
-      {key: '2', label: 'Chi tiết tương tác', path: '/auth/ statistical-interaction'},
+      {key: '2', label: 'Chi tiết tương tác', path: '/auth/statistical-interaction'},
       {key: '3', label: 'Theo menu', path: '/auth/statistical-menu'},
       {key: '4', label: 'Theo nút', path: '/auth/statistical-button'},
     ],
@@ -127,6 +114,7 @@ const menuItems = ref([
     icon: UserOutlined,
     path: '/auth/menu',
   },
+  {key: '6', icon: UserOutlined, label: 'Lịch sử thanh toán', path: ROUTES_CONSTANTS.ADMIN.children.PLAN_ORDER},
 
 ]);
 

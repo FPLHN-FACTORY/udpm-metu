@@ -29,6 +29,10 @@ export const ROUTES_CONSTANTS = {
                 path: "business-type",
                 name: "business-type",
             },
+            PLAN_ORDER: {
+                path: "plan-order",
+                name: "plan-order",
+            },
         },
     },
     MANAGER: {

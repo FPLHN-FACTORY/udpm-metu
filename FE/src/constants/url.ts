@@ -34,6 +34,8 @@ export const PREFIX_API_MANAGER = `${API_URL}/manager` as string;
 
 // ADMIN API
 export const PREFIX_API_ADMIN = `${API_URL}/admin` as string;
+export const API_ADMIN_PLAN_ORDER = `${PREFIX_API_ADMIN}/plan-order` as string;
+
 
 //
 // export const PREFIX_API_DEPARTMENT_ADMIN =

@@ -52,7 +52,16 @@ const routes: Array<RouteRecordRaw> = [
             {
                 path: ROUTES_CONSTANTS.ADMIN.children.BUSINESS_TYPE.path,
                 name: ROUTES_CONSTANTS.ADMIN.children.BUSINESS_TYPE.name,
-                component: import('@/views/admin/business/BusinessType.vue'),
+                component: import('@/views/admin/businesstype/BusinessType.vue'),
+                meta: {
+                    requiresRole: ROLES.ADMIN,
+                    requiresAuth: true
+                },
+            },
+            {
+                path: ROUTES_CONSTANTS.ADMIN.children.PLAN_ORDER.path,
+                name: ROUTES_CONSTANTS.ADMIN.children.PLAN_ORDER.name,
+                component: import('@/views/admin/plan/PlanOrder.vue'),
                 meta: {
                     requiresRole: ROLES.ADMIN,
                     requiresAuth: true

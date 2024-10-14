@@ -1,5 +1,5 @@
 <template>
-  <div class="h-0 flex-1" ref="tableWrapper">
+  <div class="flex-1" ref="tableWrapper">
     <a-table
         class="overflow-hidden"
         :class="className"
@@ -16,6 +16,13 @@
         :pagination="false"
         v-bind="$attrs"
     >
+      <template #headerCell="{ column }">
+        <span>
+          <slot :name="`header-${column.key}`" :column="column">
+            {{ column.title }}
+          </slot>
+        </span>
+      </template>
       <template #bodyCell="{ text, record, column }">
         <slot name="bodyCell" :column="column" :record="record">
           {{ text }}
@@ -23,7 +30,7 @@
       </template>
       <template #emptyText>
         <div class="flex justify-center items-center h-full">
-          <a-empty description="Không có dữ liệu"/>
+          <a-empty description="Không có dữ liệu" />
         </div>
       </template>
     </a-table>
@@ -146,7 +153,7 @@ const computedScroll = computed(() => {
       tableWrapper.value.scrollHeight > y;
 
   return isScrollable
-      ? {y: props.scroll?.y || y, x: props.scroll?.x || "none"}
-      : {x: props.scroll?.x || "none"};
+      ? { y: props.scroll?.y || y, x: props.scroll?.x || "none" }
+      : { x: props.scroll?.x || "none" };
 });
 </script>
