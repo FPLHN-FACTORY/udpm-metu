@@ -79,6 +79,14 @@ export const ROUTES_CONSTANTS = {
         path: "/:pathMatch(.*)*",
         name: "NotFound",
     },
+    FORBIDDEN: {
+        path: "/forbidden",
+        name: "Forbidden",
+    },
+    UNAUTHORIZED: {
+        path: "/unauthorized",
+        name: "Unauthorized",
+    },
     REDIRECT: {
         path: "/redirect",
         name: "redirect",

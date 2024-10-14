@@ -168,6 +168,8 @@ route.beforeEach((to, from, next) => {
         next({name: ROUTES_CONSTANTS.AUTHENTICATION.children.LOGIN.name});
     } else if (requiresAuth && !authStore.isAuthenticated) {
         next({name: ROUTES_CONSTANTS.AUTHENTICATION.children.LOGIN.name});
+    } else if (requiresRole && (!userRole || userRole !== to.meta.requiresRole)) {
+        next({name: ROUTES_CONSTANTS.AUTHENTICATION.children.LOGIN.name});
     } else {
         next();
     }

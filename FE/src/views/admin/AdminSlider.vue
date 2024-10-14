@@ -81,13 +81,27 @@ import {useRouter} from 'vue-router';
 import {MenuFoldOutlined, MenuUnfoldOutlined, UserOutlined,} from '@ant-design/icons-vue';
 import {ROUTES_CONSTANTS} from "@/constants/path.ts";
 import {useAuthStore} from "@/stores/auth.ts";
+import route from "@/routes/route.ts";
 
 const auth = useAuthStore();
-
 const userInfo = computed(() => auth.user);
+// if(userInfo){
+//   const rolesCodes = userInfo?.value?.rolesCodes;
+//   if (rolesCodes) {
+//     if (!rolesCodes.includes(ROLES.ADMIN)) {
+//       route.push(ROUTES_CONSTANTS.AUTHENTICATION.children.LOGIN);
+//     }
+//   } else {
+//     route.push(ROUTES_CONSTANTS.AUTHENTICATION.children.LOGIN);
+//     return;
+//   }
+// }elsE{
+//
+// }
+
 const handleLogout = () => {
   auth.logout();
-  router.push(ROUTES_CONSTANTS.AUTHENTICATION.children.LOGIN);
+  route.push(ROUTES_CONSTANTS.AUTHENTICATION.children.LOGIN);
 };
 
 const collapsed = ref<boolean>(false);
