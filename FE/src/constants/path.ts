@@ -15,7 +15,7 @@ export const ROUTES_CONSTANTS = {
                 path: "forgot-password",
                 name: "forgot-password",
             },
-        },
+        }
     },
     ADMIN: {
         path: "/admin",
@@ -33,7 +33,12 @@ export const ROUTES_CONSTANTS = {
                 path: "plan-order",
                 name: "plan-order",
             },
+            WIDGET: {
+                path: "ad-widget",
+                name: "ad-widget",
+            },
         },
+
     },
     MANAGER: {
         path: "/manager",
@@ -65,6 +70,7 @@ export const ROUTES_CONSTANTS = {
             }
         },
     },
+
     EMPLOYEE: {
         path: "/employee",
         name: "employee",

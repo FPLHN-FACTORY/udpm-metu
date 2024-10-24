@@ -15,6 +15,7 @@ public interface ExampleUserRepository extends UserRepository {
                     id as id,
                     full_name as name
                 from user
+                LIMIT 1
             """, nativeQuery = true)
     List<ExampleUserResponse> getListUser();
 

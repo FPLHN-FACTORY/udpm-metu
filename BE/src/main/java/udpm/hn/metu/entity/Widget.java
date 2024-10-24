@@ -6,6 +6,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.annotations.Nationalized;
+import udpm.hn.metu.core.admin.widget.model.request.AdCUWidgetRequest;
 import udpm.hn.metu.entity.base.AuditEntity;
 import udpm.hn.metu.infrastructure.constant.EntityProperties;
 import udpm.hn.metu.infrastructure.constant.enums.WidgetType;
@@ -44,5 +45,23 @@ public class Widget extends AuditEntity implements Serializable {
 
     @Column(name = "top")
     private Boolean top;
+
+    public Widget(AdCUWidgetRequest request){
+        this.code= request.getCode();
+        this.name =request.getName();
+        this.description=request.getDescription();
+        this.top = true;
+        this.setDeleted(false);
+        this.type= WidgetType.valueOf(request.getType());
+        this.iconUrl=request.getIconUrl();
+    }
+
+    public void updateFromRequest(AdCUWidgetRequest request) {
+        this.code = request.getCode();
+        this.name = request.getName();
+        this.description = request.getDescription();
+        this.iconUrl = request.getIconUrl();
+        this.type = WidgetType.valueOf(request.getType());
+    }
 
 }

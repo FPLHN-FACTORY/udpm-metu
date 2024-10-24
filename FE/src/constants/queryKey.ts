@@ -14,6 +14,9 @@ export const queryKey = {
       },
       businessType: {
         businesstypeList: "adBtBusinessListKey"
+      },
+      widget:{
+          widgetAd: "adWidgetKey",
       }
   },
   

@@ -1,7 +1,7 @@
-import {createRouter, createWebHistory, RouteRecordRaw} from 'vue-router';
-import {ROUTES_CONSTANTS} from "@/constants/path.ts";
-import {ROLES} from "@/constants/role.ts";
-import {useAuthStore} from "@/stores/auth.ts";
+import { createRouter, createWebHistory, RouteRecordRaw } from "vue-router";
+import { ROUTES_CONSTANTS } from "@/constants/path.ts";
+import { ROLES } from "@/constants/role.ts";
+import { useAuthStore } from "@/stores/auth.ts";
 
 const routes: Array<RouteRecordRaw> = [
     {
@@ -65,6 +65,15 @@ const routes: Array<RouteRecordRaw> = [
                 meta: {
                     requiresRole: ROLES.ADMIN,
                     requiresAuth: true
+                },
+            },
+            {
+                path: ROUTES_CONSTANTS.ADMIN.children.WIDGET.path,
+                name: ROUTES_CONSTANTS.ADMIN.children.WIDGET.name,
+                component: import("@/views/admin/widget_admin/AdWidget.vue"),
+                meta: {
+                    requiresRole: ROLES.ADMIN,
+                    requiresAuth: true,
                 },
             },
         ],
@@ -163,11 +172,12 @@ const routes: Array<RouteRecordRaw> = [
 ];
 
 const route = createRouter({
-    history: createWebHistory(),
-    routes,
+  history: createWebHistory(),
+  routes,
 });
 
 route.beforeEach((to, from, next) => {
+
     const authStore = useAuthStore();
     const requiresAuth = to.matched.some((record) => record.meta.requiresAuth);
     const requiresRole = to.matched.some((record) => record.meta.requiresRole);
@@ -182,7 +192,7 @@ route.beforeEach((to, from, next) => {
     } else {
         next();
     }
-
+  
 });
 
 export default route;
