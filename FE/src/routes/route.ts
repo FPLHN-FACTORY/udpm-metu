@@ -177,18 +177,22 @@ const route = createRouter({
 });
 
 route.beforeEach((to, from, next) => {
-  const authStore = useAuthStore();
-  const requiresAuth = to.matched.some((record) => record.meta.requiresAuth);
-  const requiresRole = to.matched.some((record) => record.meta.requiresRole);
-  const userRole = authStore?.user?.rolesCodes;
 
-  if (userRole === null && requiresAuth) {
-    next({ name: ROUTES_CONSTANTS.AUTHENTICATION.children.LOGIN.name });
-  } else if (requiresAuth && !authStore.isAuthenticated) {
-    next({ name: ROUTES_CONSTANTS.AUTHENTICATION.children.LOGIN.name });
-  } else {
-    next();
-  }
+    const authStore = useAuthStore();
+    const requiresAuth = to.matched.some((record) => record.meta.requiresAuth);
+    const requiresRole = to.matched.some((record) => record.meta.requiresRole);
+    const userRole = authStore?.user?.rolesCodes;
+
+    if (userRole === null && requiresAuth) {
+        next({name: ROUTES_CONSTANTS.AUTHENTICATION.children.LOGIN.name});
+    } else if (requiresAuth && !authStore.isAuthenticated) {
+        next({name: ROUTES_CONSTANTS.AUTHENTICATION.children.LOGIN.name});
+    } else if (requiresRole && (!userRole || userRole !== to.meta.requiresRole)) {
+        next({name: ROUTES_CONSTANTS.AUTHENTICATION.children.LOGIN.name});
+    } else {
+        next();
+    }
+  
 });
 
 export default route;

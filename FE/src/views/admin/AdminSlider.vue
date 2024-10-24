@@ -40,7 +40,7 @@
     </a-layout-sider>
 
     <a-layout>
-      <a-layout-header class="pl-3 mt-1">
+      <a-layout-header class="pl-3 mt-1" style="background-color: white">
         <div class="user-info flex items-center justify-between">
           <div class="cursor-pointer" @click="collapsed = !collapsed">
             <component
@@ -84,24 +84,20 @@
 </template>
 
 <script lang="ts" setup>
-import {computed, ref} from "vue";
-import {useRouter} from "vue-router";
-import {
-  MenuFoldOutlined,
-  MenuUnfoldOutlined,
-  UserOutlined,
-} from "@ant-design/icons-vue";
+
+import {computed, ref} from 'vue';
+import {useRouter} from 'vue-router';
+import {MenuFoldOutlined, MenuUnfoldOutlined, UserOutlined,} from '@ant-design/icons-vue';
 import {ROUTES_CONSTANTS} from "@/constants/path.ts";
 import {useAuthStore} from "@/stores/auth.ts";
-
-
+import route from "@/routes/route.ts";
 
 const auth = useAuthStore();
 
 const userInfo = computed(() => auth.user);
 const handleLogout = () => {
   auth.logout();
-  router.push(ROUTES_CONSTANTS.AUTHENTICATION.children.LOGIN);
+  route.push(ROUTES_CONSTANTS.AUTHENTICATION.children.LOGIN);
 };
 
 const collapsed = ref<boolean>(false);
